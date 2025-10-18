@@ -1,0 +1,122 @@
+.navbar { 
+    padding: 20px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center menu */
+    background-color: #74A662;
+    color: white;
+    font-size: 22px;
+    list-style: none;
+    position: relative; /* Needed for absolute logo */
+}
+
+/* Centered logo aligned to left */
+.navbar .logo {
+    position: absolute;
+    left: 30px;
+    font-size: 50px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    text-decoration: none; /* optional for React Router Link */
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: white;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    transition: 0.3s;
+}
+
+.navbar .active {
+    padding-bottom: 2px;
+    border-bottom: 2px solid #fff4f2;
+    cursor: pointer;
+}
+
+/* Optional: remove default link styles */
+.navbar-menu a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    color: transparent;
+    outline: none;
+    margin-right: 50px;
+}
+
+.profile,
+.mag_icon,
+.saved {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+@media (max-width: 150px) {
+    .navbar .logo {
+        width: 140px;
+    }
+
+    .navbar-menu {
+        gap: 20px;
+        font-size: 17px;
+    }
+
+    .navbar-right {
+        gap: 30px;
+    }
+
+    .navbar-right button {
+        padding: 8px 25px;
+    }
+}
+
+@media (max-width: 900px) {
+    .navbar .logo {
+        width: 120px;
+    }
+
+    .navbar-menu {
+        gap: 15px;
+        font-size: 16px;
+    }
+
+    .navbar-right {
+        gap: 0px;
+    }
+
+    .navbar-right-img {
+        width: 20px;
+    }
+
+    .navbar-right button {
+        padding: 7px 20px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 750px) {
+    .navbar-menu {
+        display: none;
+    }
+
+    .navbar-right {
+        display: none;
+    }
+}
