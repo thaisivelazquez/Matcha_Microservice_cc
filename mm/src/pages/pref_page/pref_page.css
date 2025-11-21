@@ -29,7 +29,7 @@
     left:15px;
     height: 1300px;
     width: 1300px;
-    background-image: url("https://i.pinimg.com/1200x/1d/e2/e9/1de2e9ceba949438e1f3c46b8e170446.jpg"); /* image source */
+    background-image: url("https://i.pinimg.com/1200x/1d/e2/e9/1de2e9ceba949438e1f3c46b8e170446.jpg"); 
     background-size: cover;                  
     background-position: center;            
     background-repeat: no-repeat;
@@ -122,7 +122,7 @@
     padding: 10px;
     border: none;
     background-color: #dbe0e2;
-    border-radius: 4px;
+    border-radius: 10px;
 
 }
 
