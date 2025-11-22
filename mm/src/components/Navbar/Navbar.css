@@ -2,23 +2,31 @@
     padding: 20px 0px;
     display: flex;
     align-items: center;
-    justify-content: center; /* Center menu */
+    justify-content: center; 
     background-color: #74A662;
     color: white;
     font-size: 22px;
     list-style: none;
-    position: relative; /* Needed for absolute logo */
+    position: relative; 
 }
 
-/* Centered logo aligned to left */
+
 .navbar .logo {
     position: absolute;
     left: 30px;
     font-size: 50px;
     color: rgb(255, 255, 255);
     cursor: pointer;
-    text-decoration: none; /* optional for React Router Link */
+    text-decoration: none; 
 }
+
+.right {
+    position: absolute;
+    right: 30px;
+    display: flex;
+    align-items: center;
+}
+
 
 .navbar-menu {
     display: flex;
@@ -40,7 +48,7 @@
     cursor: pointer;
 }
 
-/* Optional: remove default link styles */
+
 .navbar-menu a {
     text-decoration: none;
     color: inherit;
@@ -61,6 +69,30 @@ button {
     width: 40px;
     cursor: pointer;
 }
+
+.right {
+  padding-left: 20px;  
+
+}
+
+.search-input {
+    width: 250px;   /* controls length */
+    height: 40px;   /* controls height */
+
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid white;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #333;
+    outline: none;
+}
+
+
+.search-input::placeholder {
+    color: #777;
+}
+
 
 .navbar-right {
     display: flex;
@@ -118,5 +150,9 @@ button {
 
     .navbar-right {
         display: none;
+    }
+
+    .right {
+        display: none;    /* hide the search bar */
     }
 }

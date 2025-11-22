@@ -1,0 +1,54 @@
+.background-img {
+  height: 350px;        
+  width: 100%;
+  object-fit: cover;   
+  object-position: center;
+  display: block;
+}
+
+
+.description-box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(41, 38, 38, 0.3); 
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 80%;
+  text-align: center;
+  color: rgb(255, 255, 255); 
+  z-index: 10;
+}
+
+.description-text {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+h1 {
+  text-align: center; 
+  margin: 0;
+  margin-top: 20px; 
+  
+}
+
+.description-box {
+  text-align: center; 
+}
+
+
+.container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+}
+
+.card{
+    display: flex;
+    margin-left: 60px; 
+    align-items: center; 
+    margin-top: 70px;
+}
