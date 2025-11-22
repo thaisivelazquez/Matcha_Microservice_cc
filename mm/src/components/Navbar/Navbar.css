@@ -10,7 +10,6 @@
     position: relative; 
 }
 
-
 .navbar .logo {
     position: absolute;
     left: 30px;
@@ -27,7 +26,6 @@
     align-items: center;
 }
 
-
 .navbar-menu {
     display: flex;
     list-style: none;
@@ -40,11 +38,26 @@
 
 .navbar-menu li {
     transition: 0.3s;
+    position: relative;
 }
 
 .navbar-menu a {
     text-decoration: none;
     color: inherit;
+}
+
+.navbar-menu li.active a {
+    font-weight: bold;
+}
+
+.navbar-menu li.active::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    bottom: -5px; /* Adjust this value to control the position of the underline */
+    left: 0;
 }
 
 button {
@@ -65,13 +78,11 @@ button {
 
 .right {
   padding-left: 20px;  
-
 }
 
 .search-input {
-    width: 250px;   /* controls length */
-    height: 40px;   /* controls height */
-
+    width: 250px;  
+    height: 40px;  
     padding: 8px 12px;
     font-size: 16px;
     border: 2px solid white;
@@ -81,77 +92,10 @@ button {
     outline: none;
 }
 
-
 .search-input::placeholder {
     color: #777;
 }
 
-
-.navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-
-@media (max-width: 150px) {
-    .navbar .logo {
-        width: 140px;
-    }
-
-    .navbar-menu {
-        gap: 20px;
-        font-size: 17px;
-    }
-
-    .navbar-right {
-        gap: 30px;
-    }
-
-    .navbar-right button {
-        padding: 8px 25px;
-    }
-}
-
-@media (max-width: 900px) {
-    .navbar .logo {
-        width: 120px;
-    }
-
-    .navbar-menu {
-        gap: 15px;
-        font-size: 16px;
-    }
-
-    .navbar-right {
-        gap: 0px;
-    }
-
-    .navbar-right-img {
-        width: 20px;
-    }
-
-    .navbar-right button {
-        padding: 7px 20px;
-        font-size: 15px;
-    }
-}
-
-@media (max-width: 750px) {
-    .navbar-menu {
-        display: none;
-    }
-
-    .navbar-right {
-        display: none;
-    }
-
-    .right {
-        display: none;    /* hide the search bar */
-    }
-}
-
-
-/* Example styling for search form */
 .search-form {
   display: flex;
   align-items: center;
@@ -159,7 +103,7 @@ button {
 
 .search-input {
   padding: 8px;
-  margin-right: 8px; /* Adds space between the input and button */
+  margin-right: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -175,4 +119,9 @@ button {
 
 .search-button:hover {
   background-color: #8fdd91b3;
+}
+
+.navbar-menu li.active {
+  border-bottom: 2px solid white;
+  
 }
