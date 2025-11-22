@@ -4,7 +4,6 @@ import Navbar from '../../components/Navbar/Navbar';
 import Table from '../../components/Table/Table';
 
 const Page1 = () => {
-  
   const columns = React.useMemo(
     () => [
       {
@@ -35,7 +34,6 @@ const Page1 = () => {
     []
   );
 
- 
   const initialData = [
     { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
     { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
@@ -43,10 +41,8 @@ const Page1 = () => {
     { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
   ];
 
-  
   const [data, setData] = useState(initialData);
 
-  
   const [newRow, setNewRow] = useState({
     'Product Name': '',
     'Photo': '',
@@ -63,14 +59,10 @@ const Page1 = () => {
     }));
   };
 
- 
   const handleAddRow = (e) => {
     e.preventDefault();
+    const currentTime = new Date().toLocaleString();
 
-   
-    const currentTime = new Date().toLocaleString(); 
-
-    
     setData((prevData) => [
       ...prevData,
       {
@@ -88,12 +80,18 @@ const Page1 = () => {
     });
   };
 
+  // Function to delete a row by index
+  const handleDeleteRow = (index) => {
+    const updatedData = data.filter((_, i) => i !== index);
+    setData(updatedData);
+  };
+
   return (
     <div>
       <Navbar />
 
       {/* Table component */}
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} handleDeleteRow={handleDeleteRow} />
 
       {/* Form for adding a new row */}
       <form onSubmit={handleAddRow} className="table-input-form">

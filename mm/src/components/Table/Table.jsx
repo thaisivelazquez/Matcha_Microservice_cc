@@ -1,8 +1,8 @@
 import React from "react";
 import { useTable } from "react-table";
-import './Table.css'; 
+import './Table.css';
 
-function Table({ columns, data }) {
+function Table({ columns, data, handleDeleteRow }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -28,7 +28,7 @@ function Table({ columns, data }) {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row, index) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className="data-row">
@@ -43,6 +43,14 @@ function Table({ columns, data }) {
                     </td>
                   );
                 })}
+                <td className="data-cell">
+                  {/* Delete Button directly in the row */}
+                  <button 
+                    onClick={() => handleDeleteRow(index)} 
+                    className="delete-button">
+                    Delete
+                  </button>
+                </td> {/* Delete button at the end of the row */}
               </tr>
             );
           })}
@@ -53,5 +61,3 @@ function Table({ columns, data }) {
 }
 
 export default Table;
-
-

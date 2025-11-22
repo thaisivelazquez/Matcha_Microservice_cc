@@ -121,6 +121,18 @@
 }
 
    
- 
+ .delete-button {
+  background-color: #ff4d4d; /* Red background */
+  color: white; /* White text */
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.delete-button:hover {
+  background-color: #ff1a1a; /* Darker red on hover */
+}
+
 
     
