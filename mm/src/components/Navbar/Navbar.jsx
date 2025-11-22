@@ -12,17 +12,16 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    // Handle search logic here (e.g., navigate or filter results)
     console.log("Search query: ", searchQuery);
   };
 
   return (
     <div className='navbar'>
-      <Link to='/' className='logo'>Matchamania</Link>
+      <Link to='/home' className='logo'>Matchamania</Link>
 
       <ul className='navbar-menu'>
         <li onClick={() => setMenu("Home")} className={menu === "Home" ? "active" : ""}>
-          <Link to="/">Home</Link>
+          <Link to="/home">Home</Link>
         </li>
         <li onClick={() => setMenu("page-1")} className={menu === "page-1" ? "active" : ""}>
           <Link to="/page1">Budget tracker</Link>

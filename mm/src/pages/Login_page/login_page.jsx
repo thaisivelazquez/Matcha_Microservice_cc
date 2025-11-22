@@ -20,6 +20,14 @@ function LoginPage() {
     }, 800);
   };
 
+  // Function for handling login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // You can add additional login validation here (e.g., checking email/password)
+    console.log("Login successful! Navigating to /home...");
+    navigate("/home"); // Navigate to /home after successful login
+  };
+
   return (
     <div className={`signup${fadeOut ? " page-wrapper fade-out" : ""}`}>
       <div className={slide ? "container slide" : "container"}></div>
@@ -28,7 +36,7 @@ function LoginPage() {
           <div className={`content ${slide ? "fade-out" : "fade-in-left"}`}>
             <h1>Sign Up</h1>
             <p>
-              Create an account to start ranking your matcha brands, track your spending and keep and journal on your favorite types of matcha flavored items!
+              Create an account to start ranking your matcha brands, track your spending, and keep a journal on your favorite types of matcha-flavored items!
             </p>
           </div>
           <img className={`${slide ? "fade-out" : "fade-in-left"}`} />
@@ -41,7 +49,7 @@ function LoginPage() {
             </div>
             <label>Email</label>
             <input type="email" placeholder='Email' />
-            <label htmlFor="">Password</label>
+            <label>Password</label>
             <input type='password' placeholder='Password' />
             <button className='sign-btn' type="submit">Sign up</button>
             <div className='or'>
@@ -62,16 +70,16 @@ function LoginPage() {
           <img className={`${!slide ? "fade-out" : "fade-in-right"}`} />
         </div>
         <div className={`sign-up-right ${!slide ? "fade-out" : "fade-in-left"}`}>
-          <form className='sign-up-form'>
+          <form className='sign-up-form' onSubmit={handleLogin}>
             <div className='sign-upper-text'>
               <h1>Welcome back!</h1>
               <p>Sign in to manage your matcha habits </p>
             </div>
             <label>Email</label>
             <input type="email" placeholder='Email' />
-            <label htmlFor="">Password</label>
+            <label>Password</label>
             <input type='password' placeholder='Password' />
-            <button className='sign-btn'>Login</button>
+            <button className='sign-btn' type="submit">Login</button>
             <div className='or'>
               <span></span>or<span></span>
             </div>
@@ -82,8 +90,13 @@ function LoginPage() {
           </form>
         </div>
       </div>
+
+      {/* Optional: Button to finish setting up profile (navigates to /home) */}
+      <button onClick={() => navigate("/home")} className="finish-setup-btn">
+        Finish setting up my profile
+      </button>
     </div>
-  )
+  );
 }
 
 export default LoginPage;

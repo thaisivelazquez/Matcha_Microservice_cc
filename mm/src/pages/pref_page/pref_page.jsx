@@ -12,12 +12,14 @@ function PrefPage() {
     setSlide((s) => !s);
   };
 
+  
   const handleSignup = (e) => {
     e.preventDefault();
     setFadeOut(true); 
     setTimeout(() => {
-      navigate("/"); 
-    }, 800);
+      
+      navigate("/home"); 
+    }, 800); 
   };
 
   return (
@@ -37,19 +39,16 @@ function PrefPage() {
           <form className='sign-up-form' onSubmit={handleSignup}>
             <div className='sign-upper-text'>
               <h1>Create Your Matcha Profile!</h1>
-              <p>Answer the the following questions so we can set up your profile</p>
+              <p>Answer the following questions so we can set up your profile</p>
             </div>
             <label>Matcha brand</label>
-            <input type="text" placeholder='match brand' />
+            <input type="text" placeholder='Matcha brand' />
             <label htmlFor="">Starting Ranking</label>
-            <input type='text' placeholder='starting ranking' />
+            <input type='text' placeholder='Starting ranking' />
             <label htmlFor="">Starting budget</label>
-            <input type='number' placeholder='starting budget' />
-            <label htmlFor="">place holder</label>
-            <input type='number' placeholder='palce holder' />
-
-
-
+            <input type='number' placeholder='Starting budget' />
+            <label htmlFor="">Place holder</label>
+            <input type='number' placeholder='Place holder' />
 
             <button className='sign-btn' type="submit">Finished setting up my profile</button>
             <div className='or'>
@@ -58,7 +57,7 @@ function PrefPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default PrefPage;
