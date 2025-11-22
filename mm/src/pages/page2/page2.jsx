@@ -4,7 +4,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import Table from '../../components/Table/Table';
 
 const Page2 = () => {
-  // Define the columns for the table
+
   const columns = React.useMemo(
     () => [
       {
@@ -27,7 +27,7 @@ const Page2 = () => {
     []
   );
 
-  // Initial data for the table
+
   const initialData = [
     { 'Product Name': 'matcha1', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' },
     { 'Product Name': 'matcha', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' },
@@ -35,10 +35,10 @@ const Page2 = () => {
     { 'Product Name': 'matcha', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' }
   ];
 
-  // State to hold the table data
+
   const [data, setData] = useState(initialData);
 
-  // State to hold input field values for adding a new row
+  
   const [newRow, setNewRow] = useState({
     'Product Name': '',
     'Rating': '',
@@ -46,7 +46,7 @@ const Page2 = () => {
     'Rating/Price per g': ''
   });
 
-  // Handle changes to input fields
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewRow((prevRow) => ({
@@ -55,12 +55,12 @@ const Page2 = () => {
     }));
   };
 
-  // Handle form submission (add new row)
+  
   const handleAddRow = (e) => {
     e.preventDefault();
-    // Add the new row to the existing data
+   
     setData((prevData) => [...prevData, newRow]);
-    // Reset the form fields
+ 
     setNewRow({
       'Product Name': '',
       'Rating': '',
@@ -69,14 +69,20 @@ const Page2 = () => {
     });
   };
 
+
+  const handleDeleteRow = (index) => {
+    const updatedData = data.filter((_, i) => i !== index);
+    setData(updatedData);
+  };
+
   return (
     <div>
       <Navbar />
 
-      {/* Table component */}
-      <Table columns={columns} data={data} />
+      
+      <Table columns={columns} data={data} handleDeleteRow={handleDeleteRow} />
 
-      {/* Form for adding a new row (moved below the table) */}
+     
       <form onSubmit={handleAddRow} className="table-input-form">
         <div>
           <input
