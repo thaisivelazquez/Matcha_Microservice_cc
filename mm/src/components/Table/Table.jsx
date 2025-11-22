@@ -1,6 +1,6 @@
 import React from "react";
 import { useTable } from "react-table";
-import './Table.css'; // Import the CSS file
+import './Table.css'; 
 
 function Table({ columns, data }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -11,9 +11,8 @@ function Table({ columns, data }) {
 
   return (
     <div className="table-container">
-      {/* Dark Green Strip with Purchases Title */}
       <div className="title-strip">
-        <h1 className="table-title">Purchases</h1>
+        <h1 className="table-title">Insert your matcha details</h1>
       </div>
 
       <table {...getTableProps()} className="styled-table">

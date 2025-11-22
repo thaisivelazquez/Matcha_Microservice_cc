@@ -1,42 +1,126 @@
-.description-box1 {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(76, 128, 94); 
-  padding: 10px;
-  width: 1700px;
-  text-align: center;
-  color: rgb(255, 255, 255); 
-  z-index: 10;
-}
-
-.description-box2 {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgb(164, 199, 140); 
-  padding: 10px;
-  width: 1700px;
-  margin-top: 80px;
-  text-align: center;
-  color: rgb(255, 255, 255); 
-  z-index: 10;
+.headers1{
+    height: 34vw;
+    margin:30px auto;
+    background-size: contain;
+    position: relative;
+    background-color:  #ffffff;
 }
 
 
-
-
-.tms{
-
-
+.header-contents1{
+    padding: 2vw 7vw;
+    color:#74A662;
+    font-size: 50px;
+    gap: 1.5vw;
+    position: relative;
 }
 
-.tstm{
-
+.header-contents1 h2 {
+    font-weight: 500;
 }
 
-.tbl{
+
+.header-contents1 button{
+    border: none;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    background-color: #436ce9;
+    border-radius: 30px;
+    font-size: max(1vw,13px);
+    padding: 1vw 3vw;
+    cursor: pointer; 
+    margin-left:20px;
+    
+    margin-top: 90px;
     
 }
+
+
+
+.sizing{
+    height: 100px;
+    width: 500px;
+    position: center;
+    border-radius: 10px;
+    padding: 10px;
+    
+}
+
+
+.feedback_pic{
+
+    border: none;
+    color: rgb(255, 255, 255);
+    font-weight: 500;
+    background-color: #436ce9;
+    border-radius: 30px;
+    font-size: max(1vw,13px);
+    padding: 1vw 3vw;
+    cursor: pointer; 
+    margin-left:20px;
+    
+    margin-top: 90px;
+
+}
+
+
+@media (max-width:1050px){
+    .header{
+        height: 38vw;
+    }
+
+
+    .header-contents{
+        max-width: 45%;
+    }
+
+    .header-contents input {
+        max-width: 100%;
+    }
+
+
+    .header-contents button{
+        height: 70px;
+        width: 310px;
+    
+}
+
+
+
+}
+
+
+
+@media (max-width:750px){
+    
+    .header{
+        height: 28vw;
+    }
+
+
+    
+    .header-contents{
+        max-width: 55%;
+    }
+    .header-contents button{
+        padding: 2vw 4vw;
+    }
+
+
+    .header-contents input {
+        max-width: 100%;
+    }
+
+    .header-contents button{
+        height: 70px;
+        width: 200px;
+    
+}
+
+
+}
+
+   
+ 
+
+    
