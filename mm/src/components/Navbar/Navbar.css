@@ -42,13 +42,6 @@
     transition: 0.3s;
 }
 
-.navbar .active {
-    padding-bottom: 2px;
-    border-bottom: 2px solid #fff4f2;
-    cursor: pointer;
-}
-
-
 .navbar-menu a {
     text-decoration: none;
     color: inherit;
