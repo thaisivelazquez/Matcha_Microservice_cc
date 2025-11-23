@@ -1,4 +1,4 @@
-# Matchamania: frontend + microserve integration*
+# Matchamania: frontend + microservice integration
 
 
 
