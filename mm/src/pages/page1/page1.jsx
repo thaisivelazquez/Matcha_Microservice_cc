@@ -10,10 +10,7 @@ const Page1 = () => {
         Header: 'Product Name',
         accessor: 'Product Name',
       },
-      {
-        Header: 'Photo',
-        accessor: 'Photo',
-      },
+
       {
         Header: 'Time',
         accessor: 'Time',
@@ -35,17 +32,16 @@ const Page1 = () => {
   );
 
   const initialData = [
-    { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha', 'Photo': '$1', 'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
+    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
+    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
+    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
+    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
   ];
 
   const [data, setData] = useState(initialData);
 
   const [newRow, setNewRow] = useState({
     'Product Name': '',
-    'Photo': '',
     'Grams': '',
     'Cost': '',
     'Price per gram': '',
@@ -73,7 +69,6 @@ const Page1 = () => {
 
     setNewRow({
       'Product Name': '',
-      'Photo': '',
       'Grams': '',
       'Cost': '',
       'Price per gram': '',
@@ -105,7 +100,7 @@ const Page1 = () => {
             required
           />
         </div>
-        <div>
+        {/* <div>
           <input
             type="text"
             name="Photo"
@@ -114,7 +109,7 @@ const Page1 = () => {
             placeholder="Photo"
             required
           />
-        </div>
+        </div> */}
         <div>
           <input
             type="text"

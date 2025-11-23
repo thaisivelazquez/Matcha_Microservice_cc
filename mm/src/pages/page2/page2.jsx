@@ -12,27 +12,31 @@ const Page2 = () => {
         accessor: 'Product Name',
       },
       {
-        Header: 'Rating',
+        Header: 'Rating out of 5',
         accessor: 'Rating',
       },
+
+      
       {
-        Header: 'Description',
-        accessor: 'Description',
+        Header: 'Origin',
+        accessor: 'Origin',
       },
+      
       {
         Header: 'Rating/Price per g',
         accessor: 'Rating/Price per g',
       },
+      
     ],
     []
   );
 
 
   const initialData = [
-    { 'Product Name': 'matcha1', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' },
-    { 'Product Name': 'matcha', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' },
-    { 'Product Name': 'matcha', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' },
-    { 'Product Name': 'matcha', 'Rating': '30g', 'Description': '$29', 'Rating/Price per g': '$0.96' }
+    { 'Product Name': 'matcha1', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96'},
+    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' },
+    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' },
+    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' }
   ];
 
 

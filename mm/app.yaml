@@ -1,0 +1,16 @@
+runtime: nodejs20
+
+handlers:
+  # Serve JS, CSS, images
+  - url: /static
+    static_dir: build/static
+
+  # Serve favicon, manifest, and logos
+  - url: /(favicon.ico|manifest.json|logo.*.png)
+    static_files: build/\1
+    upload: build/(favicon.ico|manifest.json|logo.*.png)
+
+  # Catch-all route for SPA
+  - url: /.*
+    static_files: build/index.html
+    upload: build/index.html
