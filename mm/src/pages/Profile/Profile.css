@@ -263,7 +263,7 @@
   }
 }
 
-/* --------- NEW: profile card fade + skeleton --------- */
+
 
 .profile-card {
   min-height: 240px;
@@ -277,7 +277,7 @@
   transform: translateY(0);
 }
 
-/* Skeleton basics */
+
 .skeleton-text {
   background-color: #e4e4e4;
   border-radius: 4px;
@@ -286,14 +286,14 @@
   overflow: hidden;
 }
 
-/* Avatar skeleton */
+
 .skeleton-avatar {
   background-color: #e4e4e4;
   position: relative;
   overflow: hidden;
 }
 
-/* Simple shimmer */
+
 .skeleton-text::after,
 .skeleton-avatar::after {
   content: "";
@@ -309,7 +309,7 @@
   animation: skeleton-shimmer 1s infinite;
 }
 
-/* Make skeleton lines look like text */
+
 .name.skeleton-text {
   height: 1.6rem;
   width: 60%;
