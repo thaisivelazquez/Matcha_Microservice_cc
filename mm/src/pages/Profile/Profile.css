@@ -12,7 +12,7 @@
   padding: 40px;
 }
 
-/* no background-image here; JSX handles it */
+
 
 .miffy-bunny {
   position: absolute;
@@ -118,7 +118,7 @@
   color: #b00020;
 }
 
-/* login styles below (unchanged) */
+
 
 .container-log {
   display: flex;
@@ -188,16 +188,16 @@
   padding: 16px 0;
 }
 
-/* wrapper that holds card + button */
+
 .profile-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* centers button under card */
+  align-items: center;   
 }
 
-/* logout button style/spacing */
+
 .logout-btn {
-  margin-top: 16px;      /* small space under card */
+  margin-top: 16px;    
   background: #ff4d4f;
   color: #fff;
   border: none;
@@ -222,7 +222,6 @@
 
 
 
-/* icons */
 .email-icon,
 .password-icon {
   width: 21px;
