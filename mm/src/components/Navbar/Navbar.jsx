@@ -33,7 +33,21 @@ const Navbar = () => {
             <li className={isActive ? "active" : ""}>Ranking</li>
           )}
         </NavLink>
+
+
+        <NavLink to="/profile">
+          {({ isActive }) => (
+            <li className={isActive ? "active" : ""}>Profile</li>
+          )}
+        </NavLink>
       </ul>
+
+
+
+
+
+
+
 
       <div className="right">
         <form onSubmit={handleSearchSubmit} className="search-form">

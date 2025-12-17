@@ -1,136 +1,336 @@
-.email-icon{
-    width: 21px;
-    height: 21px;
-     margin: 0px 30px;
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #ffdbe7;
 }
 
-.password-icon{
-    width: 21px;
-    height: 21px;
-    margin: 0px 30px;
-
-
+.miffy-bg {
+  position: relative;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
 
-.container-log{
-    display:flex;
-    flex-direction: column;
-    margin: auto;
-    margin-top: 200px;
-    width: 600px;
-    background:  hsl(225, 79%, 59%);
-    padding-bottom: 30px;
+/* no background-image here; JSX handles it */
+
+.miffy-bunny {
+  position: absolute;
+  left: 60px;
+  bottom: 40px;
+  width: 120px;
+  height: 160px;
+  background: white;
+  border-radius: 999px 999px 60px 60px;
+  box-shadow: 0 0 0 4px #000;
+}
+
+.about-window {
+  width: 520px;
+  max-width: 90vw;
+  background-color: #f6f6f6;
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  border: 2px solid #222;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #e3e3e3;
+  border-bottom: 2px solid #222;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.red { background-color: #ff5f57; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #28c840; }
+
+.header-title {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.about-content {
+  padding: 28px 32px 32px;
+  text-align: center;
+}
+
+.avatar-circle {
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-face {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 3px solid #000;
+}
+
+.name {
+  margin: 6px 0 2px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.role {
+  margin: 0 0 16px;
+  font-size: 15px;
+}
+
+.company {
+  color: #ff4b81;
+  font-weight: 600;
+}
+
+.bio {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #444;
+}
+
+.status-text {
+  padding: 24px 28px 32px;
+  font-size: 14px;
+}
+
+.status-text.error {
+  color: #b00020;
+}
+
+/* login styles below (unchanged) */
+
+.container-log {
+  display: flex;
+  flex-direction: column;
+  margin: 32px auto 0;
+  width: 100%;
+  max-width: 430px;
+  background: hsl(225, 79%, 59%);
+  border-radius: 10px;
+  padding: 24px 24px 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.header-log {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.text-log {
+  color: white;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.underline-log {
+  width: 61px;
+  height: 6px;
+  border-radius: 9px;
+  background: white;
+}
+
+.inputs-log {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-log {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 380px;
+  height: 64px;
+  background: white;
+  border-radius: 6px;
+}
+
+.input-log input {
+  height: 40px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
 }
 
 
-.header-log{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 9px;
-    width: 100%;
-    margin-top: 30px;
+.logout-section {
+  margin-top: 24px;
+  text-align: center;
+  padding: 16px 0;
 }
 
-.text-log{
-    color: white;
-    font-size: 48px;
-    font-weight: 700;
+/* wrapper that holds card + button */
+.profile-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centers button under card */
 }
 
-.underline-log{
-    width: 61px;
-    height: 6px;
-    border-radius: 9px;
-    background: white;
+/* logout button style/spacing */
+.logout-btn {
+  margin-top: 16px;      /* small space under card */
+  background: #ff4d4f;
+  color: #fff;
+  border: none;
+  margin-left: 40px;    
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.inputs-log{
-    margin-top: 55px;
-    display: flex;
-    flex-direction: column;
-    gap:25px;   
-}
-
-.input-log{
-    display: flex;
-    align-items: center;
-    margin: auto;
-    width: 400px;
-    height: 80px;
-    background: white;
-    border-radius: 6px;
-}
-
-.input-log input{
-    height: 50px;
-    width: 480px;
-    background: transparent;
-    border: white;
-    outline: none;
-    font-size: 19px;
-}
-
-.submit-container-log{
-    display: flex;
-    gap: 30px;
-    margin: 60px auto; 
-    position: center; 
-}
-
-.submit-log{
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    color: white;
-    background: white;
-    color: black;
-    font-size: 19px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    height: 40px;
-    width: 250px;
-    border-radius: 15px;
-    text-align: center;
-    line-height: 10px; 
-    display: inline-block;
-    box-shadow: 2px 4px 6px rgba(26, 25, 25, 0.64);
-
+.logout-btn:hover {
+  background: #ff3333;
+  transform: translateY(-1px);
 }
 
 
-@media (max-width:1050px){
-    .header{
-        height: 38vw;
-    }
-
-
-    .header-contents{
-        max-width: 45%;
-    }
-
-    .header-contents input {
-        max-width: 100%;
-    }
-
-
-    .header-contents button{
-        height: 70px;
-        width: 310px;
-    
-}
-
+.logout-btn:active {
+  transform: translateY(0);
 }
 
 
 
-@media (max-width:750px){
-
-
-    
-    
+/* icons */
+.email-icon,
+.password-icon {
+  width: 21px;
+  height: 21px;
+  margin: 0 18px;
 }
 
+.submit-container-log {
+  display: flex;
+  justify-content: center;
+  margin: 32px auto 0;
+}
 
+.submit-log {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  color: black;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  height: 40px;
+  width: 220px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 2px 4px 6px rgba(26, 25, 25, 0.64);
+}
 
+@media (max-width: 750px) {
+  .container-log {
+    max-width: 100%;
+    padding: 18px 14px 24px;
+  }
+
+  .input-log {
+    max-width: 100%;
+  }
+}
+
+/* --------- NEW: profile card fade + skeleton --------- */
+
+.profile-card {
+  min-height: 240px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.profile-card.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Skeleton basics */
+.skeleton-text {
+  background-color: #e4e4e4;
+  border-radius: 4px;
+  color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Avatar skeleton */
+.skeleton-avatar {
+  background-color: #e4e4e4;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Simple shimmer */
+.skeleton-text::after,
+.skeleton-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: skeleton-shimmer 1s infinite;
+}
+
+/* Make skeleton lines look like text */
+.name.skeleton-text {
+  height: 1.6rem;
+  width: 60%;
+  margin: 12px auto 4px;
+}
+
+.bio.skeleton-text {
+  height: 1.2rem;
+  width: 80%;
+  margin: 8px auto 16px;
+}
+
+.profile-details .skeleton-text {
+  height: 1rem;
+  width: 80%;
+  margin: 6px auto;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

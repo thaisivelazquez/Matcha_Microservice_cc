@@ -17,7 +17,7 @@ const Home = () => {
         </p>
       </div>
     
-    <h1>Favorites</h1>
+    <h1>Current Favorites</h1>
     </div>
   );
 }
