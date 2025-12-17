@@ -34,7 +34,6 @@ function LoginPage() {
 
   const navigate = useNavigate();
 
-  // Google One Tap / button init
   useEffect(() => {
     const interval = setInterval(() => {
       if (window.google && window.google.accounts) {
@@ -55,7 +54,7 @@ function LoginPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // ---------- API helpers ----------
+
 
   async function getUserByEmail(email) {
     const response = await fetch("https://matcha-api-ktr6lb33ta-uc.a.run.app/users");
@@ -91,20 +90,20 @@ function LoginPage() {
     return response.json();
   }
 
-  // ---------- Google login handler ----------
+  
 
   const handleGoogleCredential = async (response) => {
     try {
       const idToken = response.credential;
-      const googleUser = decodeJwt(idToken); // contains email, given_name, family_name, etc.
+      const googleUser = decodeJwt(idToken); 
 
-      // Find or create backend user by email so we get a user_id
+      
       let backendUser = await getUserByEmail(googleUser.email);
       if (!backendUser) {
         backendUser = await createUser(googleUser.email, googleUser);
       }
 
-      // Store consistent auth data
+  
       localStorage.setItem("user_id", backendUser.id);
       localStorage.setItem("user_email", backendUser.email);
       localStorage.setItem("user_profile", JSON.stringify(backendUser));
@@ -118,7 +117,6 @@ function LoginPage() {
     }
   };
 
-  // ---------- Validation helpers ----------
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -175,7 +173,7 @@ function LoginPage() {
     );
   };
 
-  // ---------- Email/password signup & login ----------
+  
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -237,7 +235,6 @@ function LoginPage() {
     }
   };
 
-  // ---------- JSX ----------
 
   return (
     <div className={`signup${fadeOut ? " page-wrapper fade-out" : ""}`}>
