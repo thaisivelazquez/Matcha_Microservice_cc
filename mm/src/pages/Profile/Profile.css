@@ -67,6 +67,14 @@
   text-align: center;
 }
 
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .avatar-circle {
   width: 110px;
   height: 110px;
@@ -79,13 +87,6 @@
   justify-content: center;
 }
 
-.avatar-face {
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  background-color: #fff;
-  border: 3px solid #000;
-}
 
 .name {
   margin: 6px 0 2px;

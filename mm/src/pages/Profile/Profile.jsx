@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Profile.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
+import matchaIcon from "../../assets/matcha.png";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -81,9 +82,14 @@ const Profile = () => {
         <div className="profile-wrapper">
           <div className="about-window">
             <div className={`about-content profile-card ${profile && !error ? 'fade-in' : ''}`}>
-              <div className="avatar-circle">
-                <div className={`avatar-face ${!profile || error ? 'skeleton-avatar' : ''}`} />
-              </div>
+<div className="avatar-circle">
+  <img
+    src={matchaIcon}
+    alt="Matcha"
+    className={`avatar-image ${!profile || error ? 'skeleton-avatar' : ''}`}
+  />
+</div>
+
 
               <h2 className={`name ${!profile || error ? 'skeleton-text' : ''}`}>
                 {profile && !error ? `${profile.first_name} ${profile.last_name}` : ''}
