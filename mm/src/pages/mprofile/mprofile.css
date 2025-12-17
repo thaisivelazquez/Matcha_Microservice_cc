@@ -1,0 +1,242 @@
+/* Container */
+.matcha-profile-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0 2rem;
+}
+
+/* Title bar */
+.matcha-title-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2.5rem 0.4rem;
+  text-align: center;
+}
+
+.matcha-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #4c374f;
+}
+
+/* Empty state (blank space with gentle text) */
+.matcha-empty-state {
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  color: #7a6488;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+/* Filters + create bar */
+.matcha-filters-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.3rem 2.5rem 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.matcha-filter-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: #6e5061;
+}
+
+.matcha-filter-input,
+.matcha-filter-select {
+  margin-top: 0.2rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid #e2d3f3;
+  background: #f8f3ff;
+  font-size: 0.8rem;
+}
+
+.matcha-create-btn {
+  /* remove margin-left: auto; */
+}
+
+.matcha-create-btn button {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #e2d3f3;
+  background: #f8f3ff;
+  color: #6b4b76;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.matcha-create-btn button:hover {
+  background: #eadcff;
+}
+
+/* Card grid */
+.matcha-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 cards per row */
+  gap: 0.9rem;
+  padding: 1rem 1.25rem 2rem;
+}
+
+/* Base card */
+.matcha-card {
+  position: relative;
+  background: #ffd1dc; /* default pastel pink */
+  border-radius: 18px;
+  padding: 1rem 1.1rem 0.9rem;
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+/* Pastel variations: alternate pink / green */
+.matcha-card:nth-child(2n + 1) {
+  background: #ffd1dc; /* pastel pink */
+}
+
+.matcha-card:nth-child(2n) {
+  background: #6b9c57; /* your green */
+}
+
+/* Card header */
+.matcha-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.matcha-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #4b3c45;
+}
+
+.matcha-card-chip {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: #8a6b73;
+}
+
+.matcha-card-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0.4rem 0 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.matcha-card-icon-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Meta info row */
+.matcha-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.5rem;
+  font-size: 0.75rem;
+  color: #7b5b64;
+  margin-bottom: 0.5rem;
+}
+
+.matcha-card-type {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.matcha-card-location {
+  opacity: 0.9;
+}
+
+/* Card body inputs */
+.matcha-card-body label {
+  display: block;
+  font-size: 0.75rem;
+  color: #6e5061;
+  margin-bottom: 0.4rem;
+}
+
+.matcha-card-body input,
+.matcha-card-body textarea,
+.matcha-card-body select {
+  width: 100%;
+  margin-top: 0.15rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 0.8rem;
+  box-sizing: border-box;
+}
+
+.matcha-card-body textarea {
+  resize: vertical;
+}
+
+/* Footer buttons */
+.matcha-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.65rem;
+}
+
+.matcha-card-footer-left {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.matcha-card-mode-btn,
+.matcha-card-save-btn,
+.matcha-card-delete-btn {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+/* Edit/view toggle */
+.matcha-card-mode-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #6b4b76;
+}
+
+/* Save button (same style as before) */
+.matcha-card-save-btn {
+  background: #ff8aa2;
+  color: #fff;
+}
+
+/* Delete button: same pill style, different color */
+.matcha-card-delete-btn {
+  background: #f97373;
+  color: #fff;
+}
+
+/* Disabled state */
+.matcha-card-body input:disabled,
+.matcha-card-body textarea:disabled,
+.matcha-card-body select:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
