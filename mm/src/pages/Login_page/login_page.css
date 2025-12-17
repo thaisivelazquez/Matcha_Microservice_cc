@@ -1,6 +1,6 @@
-/* Basic container and layout styling */
+
 .signup {
-  min-height: 100vh; /* fill the viewport height */
+  min-height: 100vh; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +16,7 @@
   font-family: inherit;
 }
 
-/* Page wrapper to handle fade transitions */
+
 .page-wrapper {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
@@ -47,7 +47,7 @@
   transform: translate(60%, -40%);
 }
 
-/* Form sections */
+
 .sign-up {
   display: flex;
   flex-wrap: wrap;
@@ -99,11 +99,11 @@
 .sign-up-right {
   opacity: 0;
   flex: 1;
-  height: 100%; /* fill container height */
+  height: 100%; 
   display: flex;
-  align-items: flex-start; /* align form to top */
-  justify-content: center; /* center horizontally */
-  padding-top: 1rem; /* small padding from top */
+  align-items: flex-start; 
+  justify-content: center; 
+  padding-top: 1rem; 
 }
 
 
@@ -111,16 +111,16 @@
   background-color: #f1f7f9;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgb(123, 163, 94);
-  padding: 2.5rem; /* restore padding so title isn't cut off */
+  padding: 2.5rem; 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 10px; /* slightly larger gap for readability */
+  gap: 10px; 
   width: 100%;
   max-width: 450px;
   min-width: 300px;
-  max-height: 95vh; /* taller so top title is visible */
-  overflow-y: auto; /* scroll if content exceeds max-height */
+  max-height: 95vh; 
+  overflow-y: auto; 
   margin: 0;
   box-sizing: border-box;
 }
@@ -193,7 +193,7 @@
   color: rgb(123, 163, 94);
 }
 
-/* Login transition */
+
 .login {
   transition: all 0.5s ease-in-out;
   display: flex;
@@ -202,7 +202,7 @@
   flex-wrap: wrap;
 }
 
-/* Fade animations */
+
 .fade-in-right {
   animation: fadeInRight 0.8s ease-in-out forwards;
   animation-delay: 0.3s;
@@ -217,7 +217,7 @@
   animation: fadeOut 0.8s ease-in-out forwards;
 }
 
-/* Keyframes for fade animations */
+
 @keyframes fadeInRight {
   from { opacity: 0%; visibility: hidden; transform: translateX(20px); }
   to { opacity: 100%; visibility: visible; transform: translateX(0%); }
@@ -233,15 +233,15 @@
   to { opacity: 0%; visibility: hidden; transform: translateY(-20px); }
 }
 
-/* Mobile responsiveness */
+
 @media screen and (max-width: 800px) {
   .container { transform: translate(0%, -80%); }
   .slide { transform: translate(0%, 30%); }
   .sign-up-left { display: none; }
   .sign-up-form {
-    width: 90%;       /* almost full width on mobile */
+    width: 90%;       
     min-width: auto;
-    height: auto;     /* allow form to shrink vertically */
+    height: auto;     
     padding: 1.5rem;
   }
 }
