@@ -41,25 +41,25 @@ function LoginPage() {
   const navigate = useNavigate();
 
 
-    useEffect(() => {
-      /* global google */
-      if (window.google) {
-        google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
-          callback: handleGoogleCredential,
-        });
+   useEffect(() => {
+  const interval = setInterval(() => {
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential
+      });
 
-        google.accounts.id.renderButton(
-          document.getElementById("googleSignInButton"),
-          {
-            theme: "outline",
-            size: "large",
-            width: 280,
-          }
-        );
-      }
-    }, []);
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleSignInDiv"),
+        { theme: "outline", size: "large", width: "240" }
+      );
 
+      clearInterval(interval); // stop checking
+    }
+  }, 100); // check every 100ms
+
+  return () => clearInterval(interval);
+}, []);
 
 
     const handleGoogleCredential = (response) => {
@@ -353,8 +353,8 @@ function LoginPage() {
               <div className="or"><span></span>or<span></span></div>
 
               <div
-                id="googleSignInButton"
-                style={{ marginTop: "15px", display: "flex", justifyContent: "center" }}>
+                id="googleSignInDiv"
+                style={{ marginTop: "15px", display: "flex", justifyContent: "center" , minHeight: '60px' }}>
               </div>
 
               <p className="login-instead-btn">
