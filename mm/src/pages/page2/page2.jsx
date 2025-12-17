@@ -1,134 +1,167 @@
-import React, { useState } from 'react';
-import './page2.css';  
+import React, { useState, useEffect, useMemo } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import './page2.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from '../../components/Table/Table';
 
 const Page2 = () => {
+  const { userId, loading: authLoading } = useAuth();
 
-  const columns = React.useMemo(
+  const [data, setData] = useState([]);
+  const [newRow, setNewRow] = useState({
+    'Product Name': '',
+    Rating: '',
+    Origin: '',
+    'Rating/Price per g': ''
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const columns = useMemo(
     () => [
-      {
-        Header: 'Product Name',
-        accessor: 'Product Name',
-      },
-      {
-        Header: 'Rating out of 5',
-        accessor: 'Rating',
-      },
-
-      
-      {
-        Header: 'Origin',
-        accessor: 'Origin',
-      },
-      
-      {
-        Header: 'Rating/Price per g',
-        accessor: 'Rating/Price per g',
-      },
-      
+      { Header: 'Product Name', accessor: 'Product Name' },
+      { Header: 'Rating', accessor: 'Rating' },
+      { Header: 'Origin', accessor: 'Origin' },
+      { Header: 'Value/g', accessor: 'Rating/Price per g' },
     ],
     []
   );
 
+  useEffect(() => {
+    if (authLoading) return;
 
-  const initialData = [
-    { 'Product Name': 'matcha1', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96'},
-    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' },
-    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' },
-    { 'Product Name': 'matcha', 'Rating': '3', 'Origin': 'home', 'Rating/Price per g': '$0.96' }
-  ];
+    if (!userId) {
+      setLoading(false);
+      setError('Please log in first');
+      return;
+    }
 
+    const url =
+      `https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking` +
+      `?user_id=${encodeURIComponent(userId)}`;
 
-  const [data, setData] = useState(initialData);
+    console.log('Fetching ranking for user_id:', userId, 'URL:', url);
 
-  
-  const [newRow, setNewRow] = useState({
-    'Product Name': '',
-    'Rating': '',
-    'Description': '',
-    'Rating/Price per g': ''
-  });
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // only add if your API actually uses it:
+        // 'Authorization': `Bearer ${userId}`,
+      }
+    })
+      .then(async (res) => {
+        console.log('Rankings API status:', res.status);
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`${res.status}: ${text}`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        // Expect shape:
+        // {
+        //   id: "...",
+        //   user_id: "...",
+        //   items: [{ cost_per_gram, name, origin, rating }]
+        // }
+        console.log('Ranking JSON:', json);
+        const items = json.items || [];
 
- 
+        const formatted = items.map((item) => ({
+          'Product Name': item.name,
+          Rating: item.rating,
+          Origin: item.origin,
+          'Rating/Price per g': item.cost_per_gram,
+        }));
+
+        setData(formatted);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error('Error fetching ranking:', err);
+        setError(err.message);
+      })
+      .finally(() => setLoading(false));
+  }, [userId, authLoading]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewRow((prevRow) => ({
-      ...prevRow,
-      [name]: value,
-    }));
+    setNewRow((prev) => ({ ...prev, [name]: value }));
   };
 
-  
   const handleAddRow = (e) => {
     e.preventDefault();
-   
-    setData((prevData) => [...prevData, newRow]);
- 
+    setData((prev) => [...prev, newRow]);
     setNewRow({
       'Product Name': '',
-      'Rating': '',
-      'Description': '',
+      Rating: '',
+      Origin: '',
       'Rating/Price per g': ''
     });
   };
 
-
   const handleDeleteRow = (index) => {
-    const updatedData = data.filter((_, i) => i !== index);
-    setData(updatedData);
+    setData((prev) => prev.filter((_, i) => i !== index));
   };
+
+  if (authLoading) return <div>Loading user...</div>;
 
   return (
     <div>
       <Navbar />
+      <h1>🍵 Matcha Rankings (user: {userId?.slice(0, 8)}…)</h1>
 
-      
-      <Table columns={columns} data={data} handleDeleteRow={handleDeleteRow} />
+      {loading && <p>Fetching rankings...</p>}
+      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
 
-     
+      {!loading && !error && data.length === 0 && (
+        <p>No ranking items available yet.</p>
+      )}
+
+      {!loading && !error && data.length > 0 && (
+        <Table
+          columns={columns}
+          data={data}
+          handleDeleteRow={handleDeleteRow}
+        />
+      )}
+
       <form onSubmit={handleAddRow} className="table-input-form">
-        <div>
-          <input
-            type="text"
-            name="Product Name"
-            value={newRow['Product Name']}
-            onChange={handleInputChange}
-            placeholder="Product Name"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="Rating"
-            value={newRow['Rating']}
-            onChange={handleInputChange}
-            placeholder="Rating"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="Description"
-            value={newRow['Description']}
-            onChange={handleInputChange}
-            placeholder="Description"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="Rating/Price per g"
-            value={newRow['Rating/Price per g']}
-            onChange={handleInputChange}
-            placeholder="Rating/Price per g"
-            required
-          />
-        </div>
-        <button type="submit">Add Row</button>
+        <input
+          name="Product Name"
+          value={newRow['Product Name']}
+          onChange={handleInputChange}
+          placeholder="Product"
+          required
+        />
+        <input
+          type="number"
+          name="Rating"
+          value={newRow.Rating}
+          onChange={handleInputChange}
+          placeholder="Rating"
+          max="5"
+          step="0.1"
+          required
+        />
+        <input
+          name="Origin"
+          value={newRow.Origin}
+          onChange={handleInputChange}
+          placeholder="Origin"
+          required
+        />
+        <input
+          type="number"
+          name="Rating/Price per g"
+          value={newRow['Rating/Price per g']}
+          onChange={handleInputChange}
+          placeholder="Value/g"
+          step="0.01"
+          required
+        />
+        <button type="submit">Add Matcha</button>
       </form>
     </div>
   );
