@@ -18,13 +18,12 @@ const App = () => {
         <div className='app'>
           <Routes>
             <Route path='/' element={<LoginPage />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/matchasession' element={<MatchaProfile />} />
             <Route path='/Setpreferances' element={<PrefPage />} />  
             <Route path='/page1' element={<Page1 />} />
             <Route path='/page2' element={<Page2 />} />
             <Route path='/search' element={<SearchPage />} /> 
             <Route path='/profile' element={<Profile />} />
-            <Route path='/matchaprofile' element={<MatchaProfile />} />
           </Routes>
         </div>
       </Router>

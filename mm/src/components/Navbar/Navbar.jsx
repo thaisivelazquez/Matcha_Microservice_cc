@@ -16,7 +16,7 @@ const Navbar = () => {
       <div className='logo'>Matchamania</div>
 
       <ul className='navbar-menu'>
-        <NavLink to="/home">
+        <NavLink to="/matchasession">
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>Home</li>
           )}
@@ -35,11 +35,19 @@ const Navbar = () => {
         </NavLink>
 
 
+
         <NavLink to="/profile">
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>Profile</li>
           )}
         </NavLink>
+
+        
+
+      
+      
+      
+      
       </ul>
 
 

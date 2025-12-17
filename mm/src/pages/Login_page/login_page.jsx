@@ -110,7 +110,7 @@ function LoginPage() {
       localStorage.setItem("google_id_token", idToken);
 
       setFadeOut(true);
-      setTimeout(() => navigate("/home"), 800);
+      setTimeout(() => navigate("/matchasession"), 800);
     } catch (err) {
       console.error(err);
       alert("Google sign-in failed");
@@ -228,7 +228,7 @@ function LoginPage() {
       localStorage.setItem("user_profile", JSON.stringify(user));
 
       setFadeOut(true);
-      setTimeout(() => navigate("/home"), 800);
+      setTimeout(() => navigate("/matchasession"), 800);
     } catch (error) {
       console.error(error);
       alert("Login failed.");
