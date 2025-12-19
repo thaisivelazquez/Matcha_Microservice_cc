@@ -1,4 +1,4 @@
-import './login_page.css';
+import "./login_page.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function decodeJwt(token) {
   const jsonPayload = decodeURIComponent(
     atob(base64)
       .split("")
-      .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+      .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
       .join("")
   );
   return JSON.parse(jsonPayload);
@@ -42,22 +42,34 @@ function LoginPage() {
           callback: handleGoogleCredential,
         });
 
+        // login button
         window.google.accounts.id.renderButton(
           document.getElementById("googleSignInDiv"),
           { theme: "outline", size: "large", width: "240" }
         );
+
+        // signup button (same style)
+        const signupDiv = document.getElementById("googleSignUpDiv");
+        if (signupDiv) {
+          window.google.accounts.id.renderButton(signupDiv, {
+            theme: "outline",
+            size: "large",
+            width: "240",
+          });
+        }
 
         clearInterval(interval);
       }
     }, 100);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
-
   async function getUserByEmail(email) {
-    const response = await fetch("https://matcha-api-ktr6lb33ta-uc.a.run.app/users");
+    const response = await fetch(
+      "https://matcha-api-ktr6lb33ta-uc.a.run.app/users"
+    );
     if (!response.ok) throw new Error("Failed to fetch users");
     const users = await response.json();
     return users.find((user) => user.email === email);
@@ -77,11 +89,14 @@ function LoginPage() {
       matcha_sessions: [],
     };
 
-    const response = await fetch("https://matcha-api-ktr6lb33ta-uc.a.run.app/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const response = await fetch(
+      "https://matcha-api-ktr6lb33ta-uc.a.run.app/users",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to create user");
@@ -90,24 +105,24 @@ function LoginPage() {
     return response.json();
   }
 
-  
-
   const handleGoogleCredential = async (response) => {
     try {
       const idToken = response.credential;
-      const googleUser = decodeJwt(idToken); 
+      const googleUser = decodeJwt(idToken);
 
-      
       let backendUser = await getUserByEmail(googleUser.email);
       if (!backendUser) {
         backendUser = await createUser(googleUser.email, googleUser);
       }
 
-  
       localStorage.setItem("user_id", backendUser.id);
       localStorage.setItem("user_email", backendUser.email);
       localStorage.setItem("user_profile", JSON.stringify(backendUser));
       localStorage.setItem("google_id_token", idToken);
+      localStorage.setItem(
+        `matcha_sessions_${backendUser.id}`,
+        JSON.stringify(backendUser.matcha_sessions || [])
+      );
 
       setFadeOut(true);
       setTimeout(() => navigate("/matchasession"), 800);
@@ -116,7 +131,6 @@ function LoginPage() {
       alert("Google sign-in failed");
     }
   };
-
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -127,7 +141,10 @@ function LoginPage() {
     const digits = value.replace(/\D/g, "");
     if (digits.length <= 3) return digits;
     if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+    return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(
+      6,
+      10
+    )}`;
   };
 
   const validateFirstName = () => {
@@ -152,11 +169,19 @@ function LoginPage() {
   };
 
   const validateConfirmPassword = () => {
-    if (confirmPassword !== password) setConfirmPasswordError("Passwords do not match");
+    if (confirmPassword !== password)
+      setConfirmPasswordError("Passwords do not match");
     else setConfirmPasswordError("");
   };
 
-  const isLoginValid = () => email.trim() && password.trim() && !emailError && !passwordError;
+  const isLoginValid = () => {
+    return (
+      email.trim() &&
+      password.trim() &&
+      !emailError &&
+      !passwordError
+    );
+  };
 
   const isSignupValid = () => {
     return (
@@ -172,8 +197,6 @@ function LoginPage() {
       !lastNameError
     );
   };
-
-  
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -197,6 +220,10 @@ function LoginPage() {
       localStorage.setItem("user_id", user.id);
       localStorage.setItem("user_email", user.email);
       localStorage.setItem("user_profile", JSON.stringify(user));
+      localStorage.setItem(
+        `matcha_sessions_${user.id}`,
+        JSON.stringify(user.matcha_sessions || [])
+      );
 
       setFadeOut(true);
       setTimeout(() => navigate("/Setpreferances"), 800);
@@ -226,6 +253,10 @@ function LoginPage() {
       localStorage.setItem("user_id", user.id);
       localStorage.setItem("user_email", user.email);
       localStorage.setItem("user_profile", JSON.stringify(user));
+      localStorage.setItem(
+        `matcha_sessions_${user.id}`,
+        JSON.stringify(user.matcha_sessions || [])
+      );
 
       setFadeOut(true);
       setTimeout(() => navigate("/matchasession"), 800);
@@ -234,7 +265,6 @@ function LoginPage() {
       alert("Login failed.");
     }
   };
-
 
   return (
     <div className={`signup${fadeOut ? " page-wrapper fade-out" : ""}`}>
@@ -261,7 +291,9 @@ function LoginPage() {
               onChange={(e) => setFirstName(e.target.value)}
               onBlur={validateFirstName}
             />
-            {firstNameError && <div className="error-message">{firstNameError}</div>}
+            {firstNameError && (
+              <div className="error-message">{firstNameError}</div>
+            )}
 
             <label>Last Name</label>
             <input
@@ -270,7 +302,9 @@ function LoginPage() {
               onChange={(e) => setLastName(e.target.value)}
               onBlur={validateLastName}
             />
-            {lastNameError && <div className="error-message">{lastNameError}</div>}
+            {lastNameError && (
+              <div className="error-message">{lastNameError}</div>
+            )}
 
             <label>Phone Number</label>
             <input
@@ -297,7 +331,9 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               onBlur={validatePasswordField}
             />
-            {passwordError && <div className="error-message">{passwordError}</div>}
+            {passwordError && (
+              <div className="error-message">{passwordError}</div>
+            )}
 
             <label>Confirm Password</label>
             <input
@@ -313,6 +349,20 @@ function LoginPage() {
             <button className="sign-btn" type="submit" disabled={!isSignupValid()}>
               Sign up
             </button>
+
+            {/* OR + Google button with same layout as login */}
+            <div className="or">
+              <span></span>or<span></span>
+            </div>
+            <div
+              id="googleSignUpDiv"
+              style={{
+                marginTop: "15px",
+                display: "flex",
+                justifyContent: "center",
+                minHeight: "60px",
+              }}
+            />
 
             <p className="login-instead-btn">
               <button type="button" onClick={handleClick}>
@@ -353,7 +403,9 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               onBlur={validatePasswordField}
             />
-            {passwordError && <div className="error-message">{passwordError}</div>}
+            {passwordError && (
+              <div className="error-message">{passwordError}</div>
+            )}
 
             <button className="sign-btn" type="submit" disabled={!isLoginValid()}>
               Login

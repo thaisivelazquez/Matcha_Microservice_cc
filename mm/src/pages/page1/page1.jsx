@@ -1,148 +1,229 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import './page1.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from '../../components/Table/Table';
 
 const Page1 = () => {
-  const columns = React.useMemo(
+  const { userId, loading: authLoading } = useAuth();
+
+  const [data, setData] = useState([]);
+  const [newRow, setNewRow] = useState({
+    image: null,
+    'Product Name': '',
+    Rating: '',
+    Origin: '',
+    'Rating/Price per g': ''
+  });
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const columns = useMemo(
     () => [
       {
-        Header: 'Product Name',
+        Header: 'Product',
         accessor: 'Product Name',
+        Cell: ({ row }) => (
+          <div className="client-cell">
+            <div className="client-logo">
+              {row.original.image ? (
+                <img src={row.original.image} alt="product" />
+              ) : (
+                <span className="logo-placeholder">🍵</span>
+              )}
+            </div>
+            <div className="client-main">
+              <div className="client-title">
+                {row.original['Product Name']}
+              </div>
+              <div className="client-sub">{row.original.Origin}</div>
+            </div>
+          </div>
+        ),
       },
-
-      {
-        Header: 'Time',
-        accessor: 'Time',
-      },
-      {
-        Header: 'Grams',
-        accessor: 'Grams',
-      },
-      {
-        Header: 'Cost',
-        accessor: 'Cost',
-      },
-      {
-        Header: 'Price per gram',
-        accessor: 'Price per gram',
-      },
+      { Header: 'Rating', accessor: 'Rating' },
+      { Header: 'Value/g', accessor: 'Rating/Price per g' },
     ],
     []
   );
 
-  const initialData = [
-    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-    { 'Product Name': 'matcha',  'Time': 30, 'Grams': '30g', 'Cost': '$29', 'Price per gram': '$0.96' },
-  ];
+  useEffect(() => {
+    if (authLoading) return;
+    if (!userId) {
+      setLoading(false);
+      setError('Please log in first');
+      return;
+    }
 
-  const [data, setData] = useState(initialData);
+    const url =
+      `https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking` +
+      `?user_id=${encodeURIComponent(userId)}`;
 
-  const [newRow, setNewRow] = useState({
-    'Product Name': '',
-    'Grams': '',
-    'Cost': '',
-    'Price per gram': '',
-  });
+    fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`${res.status}: ${text}`);
+        }
+        return res.json();
+      })
+      .then((json) => {
+        const items = json.items || [];
+        const formatted = items.map((item) => ({
+          image: null,
+          'Product Name': item.name,
+          Rating: item.rating,
+          Origin: item.origin,
+          'Rating/Price per g': item.cost_per_gram,
+        }));
+        setData(formatted);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => setLoading(false));
+  }, [userId, authLoading]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewRow((prevRow) => ({
-      ...prevRow,
-      [name]: value,
-    }));
+    setNewRow((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    setNewRow((prev) => ({ ...prev, image: url }));
   };
 
   const handleAddRow = (e) => {
     e.preventDefault();
-    const currentTime = new Date().toLocaleString();
-
-    setData((prevData) => [
-      ...prevData,
-      {
-        ...newRow,
-        Time: currentTime,
-      },
-    ]);
-
+    setData((prev) => [...prev, newRow]);
     setNewRow({
+      image: null,
       'Product Name': '',
-      'Grams': '',
-      'Cost': '',
-      'Price per gram': '',
+      Rating: '',
+      Origin: '',
+      'Rating/Price per g': ''
     });
+    setPreviewUrl(null);
   };
 
-  // Function to delete a row by index
   const handleDeleteRow = (index) => {
-    const updatedData = data.filter((_, i) => i !== index);
-    setData(updatedData);
+    setData((prev) => prev.filter((_, i) => i !== index));
   };
+
+  if (authLoading) return <div>Loading user...</div>;
 
   return (
-    <div>
+    <>
       <Navbar />
 
-      {/* Table component */}
-      <Table columns={columns} data={data} handleDeleteRow={handleDeleteRow} />
+      <div className="page2">
+        <div className="page2-inner">
+         
+          <div className="page2-header">
+            <h1 className="page2-title">Budget Matcha Planning</h1>
+            <div className="page2-header-actions">
+              <button className="btn-filters">Filters</button>
+              <button className="btn-new-matcha">+ New Matcha</button>
+            </div>
+          </div>
 
-      {/* Form for adding a new row */}
-      <form onSubmit={handleAddRow} className="table-input-form">
-        <div>
-          <input
-            type="text"
-            name="Product Name"
-            value={newRow['Product Name']}
-            onChange={handleInputChange}
-            placeholder="Product Name"
-            required
-          />
+          <div className="card">
+            <div className="card-toolbar">
+              <input
+                className="search-input"
+                placeholder="Search Matcha"
+              />
+            </div>
+
+            <div className="card-table">
+              {loading && <p>Fetching rankings...</p>}
+              {error && <p className="error-text">Error: {error}</p>}
+              {!loading && !error && data.length === 0 && (
+                <p>No ranking items available yet.</p>
+              )}
+              {!loading && !error && data.length > 0 && (
+                <Table
+                  columns={columns}
+                  data={data}
+                  handleDeleteRow={handleDeleteRow}
+                />
+              )}
+
+           
+              <form onSubmit={handleAddRow} className="inline-form-row">
+                <div className="client-cell">
+                  <label className="upload-logo">
+                    {previewUrl ? (
+                      <img src={previewUrl} alt="preview" />
+                    ) : (
+                      <span className="logo-placeholder">+</span>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      hidden
+                    />
+                  </label>
+                  <div className="client-main">
+                    <input
+                      className="input-plain"
+                      name="Product Name"
+                      value={newRow['Product Name']}
+                      onChange={handleInputChange}
+                      placeholder="Product name"
+                      required
+                    />
+                    <input
+                      className="input-plain sub"
+                      name="Origin"
+                      value={newRow.Origin}
+                      onChange={handleInputChange}
+                      placeholder="Origin"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <input
+                  className="inline-number"
+                  type="number"
+                  name="Rating"
+                  value={newRow.Rating}
+                  onChange={handleInputChange}
+                  placeholder="Rating"
+                  max="5"
+                  step="0.1"
+                  required
+                />
+                <input
+                  className="inline-number"
+                  type="number"
+                  name="Rating/Price per g"
+                  value={newRow['Rating/Price per g']}
+                  onChange={handleInputChange}
+                  placeholder="Value/g"
+                  step="0.01"
+                  required
+                />
+                <button type="submit" className="btn-add-row">
+                  Add
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-        {/* <div>
-          <input
-            type="text"
-            name="Photo"
-            value={newRow['Photo']}
-            onChange={handleInputChange}
-            placeholder="Photo"
-            required
-          />
-        </div> */}
-        <div>
-          <input
-            type="text"
-            name="Grams"
-            value={newRow['Grams']}
-            onChange={handleInputChange}
-            placeholder="Grams"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="Cost"
-            value={newRow['Cost']}
-            onChange={handleInputChange}
-            placeholder="Cost"
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="Price per gram"
-            value={newRow['Price per gram']}
-            onChange={handleInputChange}
-            placeholder="Price per gram"
-            required
-          />
-        </div>
-        <button type="submit">Add Row</button>
-      </form>
-    </div>
+      </div>
+    </>
   );
 };
 

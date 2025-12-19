@@ -40,38 +40,38 @@ const MatchaProfile = ({ initialSessions, apiBaseUrl = DEFAULT_API_BASE }) => {
     fetchSessions();
   }, [apiBaseUrl, initialSessions]);
 
-/* CREATE NEW SESSION */
-const handleCreateSession = async () => {
-  try {
-    const newSession = {
-      brand: "",
-      matcha_type: "Ceremonial Grade",
-      location: "",
-      rating: 0,
-      notes: "",
-      session_date: new Date().toISOString().slice(0, 10),
-    };
+  /* CREATE NEW SESSION */
+  const handleCreateSession = async () => {
+    try {
+      const newSession = {
+        brand: "",
+        matcha_type: "Ceremonial Grade",
+        location: "",
+        rating: 0,
+        notes: "",
+        session_date: new Date().toISOString().slice(0, 10),
+      };
 
-    const res = await fetch(`${apiBaseUrl}/matcha-sessions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newSession),
-    });
+      const res = await fetch(`${apiBaseUrl}/matcha-sessions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newSession),
+      });
 
-    if (!res.ok) throw new Error("Failed to create session");
+      if (!res.ok) throw new Error("Failed to create session");
 
-    const created = await res.json();
+      const created = await res.json();
 
-    // Put the new session at the beginning so it shows first
-    setSessions((prev) => [created, ...prev]);
+      // Put the new session at the beginning so it shows first
+      setSessions((prev) => [created, ...prev]);
 
-    // Start this new card in edit mode
-    setEditingIds((prev) => new Set(prev).add(created.id));
-  } catch (err) {
-    console.error(err);
-    alert("Could not create new session: " + err.message);
-  }
-};
+      // Start this new card in edit mode
+      setEditingIds((prev) => new Set(prev).add(created.id));
+    } catch (err) {
+      console.error(err);
+      alert("Could not create new session: " + err.message);
+    }
+  };
 
   /* EDIT / VIEW PER CARD */
   const isEditing = (id) => editingIds.has(id);
@@ -147,16 +147,13 @@ const handleCreateSession = async () => {
 
   /* FILTERED SESSIONS (search + type + month) */
   const filteredSessions = sessions.filter((session) => {
-    // search by name (brand)
     const nameMatch = session.brand
       ? session.brand.toLowerCase().includes(searchTerm.toLowerCase())
       : searchTerm.trim() === "";
 
-    // filter by type
     const typeMatch =
       filterType === "all" || session.matcha_type === filterType;
 
-    // filter by month from session_date "YYYY-MM-DD"
     let monthMatch = true;
     if (filterMonth !== "all" && session.session_date) {
       const parts = session.session_date.split("-");
@@ -167,86 +164,109 @@ const handleCreateSession = async () => {
     return nameMatch && typeMatch && monthMatch;
   });
 
-  if (loading) return <div>Loading matcha sessions...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) {
+    // show simple loading state instead of returning null
+    return (
+      <>
+        <Navbar />
+        <div className="matcha-profile-container">
+          <div className="matcha-empty-state">
+            <p>Loading your matcha sessions...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="matcha-profile-container">
+          <div className="matcha-empty-state">
+            <p>Error: {error}</p>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
       <Navbar />
 
       <div className="matcha-title-bar">
-        <h2 className="matcha-title">Track your matcha sessions</h2>
+        <h2 className="matcha-title">Welcome to your Matcha Sessions Tracker</h2>
       </div>
 
-{/* Filters + New button */}
-<div className="matcha-filters-bar">
-  {/* New first */}
-  <div className="matcha-create-btn">
-    <button onClick={handleCreateSession}>+ New Matcha Entry</button>
-  </div>
+      {/* Filters + New button */}
+      <div className="matcha-filters-bar">
+        {/* New first */}
+        <div className="matcha-create-btn">
+          <button onClick={handleCreateSession}>+ New Matcha Entry</button>
+        </div>
 
-  <div className="matcha-filter-group">
-    <label>
-      Search by name
-      <input
-        type="text"
-        className="matcha-filter-input"
-        placeholder="e.g. Morning matcha"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </label>
-  </div>
+        <div className="matcha-filter-group">
+          <label>
+            Search by name
+            <input
+              type="text"
+              className="matcha-filter-input"
+              placeholder="e.g. Morning matcha"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </label>
+        </div>
 
-  <div className="matcha-filter-group">
-    <label>
-      Type
-      <select
-        className="matcha-filter-select"
-        value={filterType}
-        onChange={(e) => setFilterType(e.target.value)}
-      >
-        <option value="all">All types</option>
-        <option value="Ceremonial Grade">Ceremonial Grade</option>
-        <option value="Premium Grade">Premium Grade</option>
-        <option value="Culinary Grade">Culinary Grade</option>
-        <option value="Latte Grade">Latte Grade</option>
-      </select>
-    </label>
-  </div>
+        <div className="matcha-filter-group">
+          <label>
+            Type
+            <select
+              className="matcha-filter-select"
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value)}
+            >
+              <option value="all">All types</option>
+              <option value="Ceremonial Grade">Ceremonial Grade</option>
+              <option value="Premium Grade">Premium Grade</option>
+              <option value="Culinary Grade">Culinary Grade</option>
+              <option value="Latte Grade">Latte Grade</option>
+            </select>
+          </label>
+        </div>
 
-  <div className="matcha-filter-group">
-    <label>
-      Month
-      <select
-        className="matcha-filter-select"
-        value={filterMonth}
-        onChange={(e) => setFilterMonth(e.target.value)}
-      >
-        <option value="all">All months</option>
-        <option value="01">January</option>
-        <option value="02">February</option>
-        <option value="03">March</option>
-        <option value="04">April</option>
-        <option value="05">May</option>
-        <option value="06">June</option>
-        <option value="07">July</option>
-        <option value="08">August</option>
-        <option value="09">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-      </select>
-    </label>
-  </div>
-</div>
-
+        <div className="matcha-filter-group">
+          <label>
+            Month
+            <select
+              className="matcha-filter-select"
+              value={filterMonth}
+              onChange={(e) => setFilterMonth(e.target.value)}
+            >
+              <option value="all">All months</option>
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </label>
+        </div>
+      </div>
 
       <div className="matcha-profile-container">
         {sessions.length === 0 ? (
           <div className="matcha-empty-state">
             <p>You do not have any matcha entries yet.</p>
-            <p>Tap &ldquo;+ New Matcha Entry&rdquo; to start your collection.</p>
+            <p>Click “+ New Matcha Entry” above to add your first one.</p>
           </div>
         ) : filteredSessions.length === 0 ? (
           <div className="matcha-empty-state">
