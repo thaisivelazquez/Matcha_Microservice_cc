@@ -75,18 +75,15 @@ const Page2 = () => {
       const rankings = Array.isArray(json) ? json : [];
 
     
-      const ranking =
-        rankings.find((r) => r.user_id === effectiveUserId) || rankings[0];
-
-      const items = Array.isArray(ranking?.items) ? ranking.items : [];
-
-      const formatted = items.map((item) => ({
-        image: null,
-        'Product Name': item.name ?? '',
-        Rating: item.rating ?? '',
-        Origin: item.origin ?? '',
-        'Rating/Price per g': item.cost_per_gram ?? '',
-        }));
+const formatted = rankings.flatMap(ranking =>
+  (Array.isArray(ranking.items) ? ranking.items : []).map(item => ({
+    image: null,
+    'Product Name': item.name ?? '',
+    Rating: item.rating ?? '',
+    Origin: item.origin ?? '',
+    'Rating/Price per g': item.cost_per_gram ?? '',
+  }))
+);
 
         setData(formatted);
         setError(null);
