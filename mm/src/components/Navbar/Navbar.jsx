@@ -16,19 +16,26 @@ const Navbar = () => {
       <div className='logo'>Matchamania</div>
 
       <ul className='navbar-menu'>
-        <NavLink to="/matchasession">
+        
+         <NavLink to="/home">
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>Home</li>
           )}
         </NavLink>
+        
+        <NavLink to="/matchasession">
+          {({ isActive }) => (
+            <li className={isActive ? "active" : ""}>Matcha Sessions</li>
+          )}
+        </NavLink>
 
-        <NavLink to="/page1">
+        <NavLink to="/BudgetLog">
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>Budget tracker</li>
           )}
         </NavLink>
 
-        <NavLink to="/page2">
+        <NavLink to="/RatingsLog">
           {({ isActive }) => (
             <li className={isActive ? "active" : ""}>Ranking</li>
           )}

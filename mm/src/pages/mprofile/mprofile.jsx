@@ -11,12 +11,12 @@ const MatchaProfile = ({ initialSessions, apiBaseUrl = DEFAULT_API_BASE }) => {
   const [error, setError] = useState(null);
   const [editingIds, setEditingIds] = useState(new Set()); // per‑card edit state
 
-  // filters
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [filterMonth, setFilterMonth] = useState("all"); // "all", "01".."12"
 
-  /* FETCH MATCHA SESSIONS */
+ 
   useEffect(() => {
     if (initialSessions) return;
 
@@ -62,10 +62,10 @@ const MatchaProfile = ({ initialSessions, apiBaseUrl = DEFAULT_API_BASE }) => {
 
       const created = await res.json();
 
-      // Put the new session at the beginning so it shows first
+      
       setSessions((prev) => [created, ...prev]);
 
-      // Start this new card in edit mode
+      
       setEditingIds((prev) => new Set(prev).add(created.id));
     } catch (err) {
       console.error(err);
@@ -73,7 +73,7 @@ const MatchaProfile = ({ initialSessions, apiBaseUrl = DEFAULT_API_BASE }) => {
     }
   };
 
-  /* EDIT / VIEW PER CARD */
+  
   const isEditing = (id) => editingIds.has(id);
 
   const toggleEditing = (id) => {
@@ -145,7 +145,7 @@ const MatchaProfile = ({ initialSessions, apiBaseUrl = DEFAULT_API_BASE }) => {
     }
   };
 
-  /* FILTERED SESSIONS (search + type + month) */
+
   const filteredSessions = sessions.filter((session) => {
     const nameMatch = session.brand
       ? session.brand.toLowerCase().includes(searchTerm.toLowerCase())

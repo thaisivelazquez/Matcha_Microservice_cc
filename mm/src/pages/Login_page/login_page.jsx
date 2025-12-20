@@ -105,6 +105,7 @@ function LoginPage() {
     return response.json();
   }
 
+
   const handleGoogleCredential = async (response) => {
     try {
       const idToken = response.credential;
@@ -124,8 +125,17 @@ function LoginPage() {
         JSON.stringify(backendUser.matcha_sessions || [])
       );
 
+    const res = await fetch('https://matcha-composite-service-578543055940.us-central1.run.app/auth/dev-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  
+  const data = await res.json();
+  localStorage.setItem("access_token", data.access_token);
+
       setFadeOut(true);
-      setTimeout(() => navigate("/matchasession"), 800);
+      setTimeout(() => navigate("/home"), 800);
     } catch (err) {
       console.error(err);
       alert("Google sign-in failed");
@@ -225,6 +235,17 @@ function LoginPage() {
         JSON.stringify(user.matcha_sessions || [])
       );
 
+      const res = await fetch('https://matcha-composite-service-578543055940.us-central1.run.app/auth/dev-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  
+  const data = await res.json();
+  localStorage.setItem("access_token", data.access_token);
+
+      
+
       setFadeOut(true);
       setTimeout(() => navigate("/Setpreferances"), 800);
     } catch (error) {
@@ -257,6 +278,16 @@ function LoginPage() {
         `matcha_sessions_${user.id}`,
         JSON.stringify(user.matcha_sessions || [])
       );
+
+    const res = await fetch('https://matcha-composite-service-578543055940.us-central1.run.app/auth/dev-login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  
+  const data = await res.json();
+  localStorage.setItem("access_token", data.access_token);
+ 
 
       setFadeOut(true);
       setTimeout(() => navigate("/matchasession"), 800);

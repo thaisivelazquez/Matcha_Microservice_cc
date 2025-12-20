@@ -50,7 +50,7 @@ const Page2 = () => {
       return;
     }
 
-  const url = `/ranking?user_id=${encodeURIComponent(effectiveUserId)}`;
+  const url = `https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking?user_id=${encodeURIComponent(effectiveUserId)}`;
 
     const idToken = localStorage.getItem('google_id_token');
 
@@ -59,9 +59,9 @@ const Page2 = () => {
 
     fetch(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -134,9 +134,9 @@ const formatted = rankings.flatMap(ranking =>
     setError(null);
 
     try {
-      const res = await fetch(`/ranking`, {
+      const res = await fetch(`https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        // headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 

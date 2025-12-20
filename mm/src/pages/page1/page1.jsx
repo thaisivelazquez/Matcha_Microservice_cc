@@ -9,7 +9,6 @@ const Page1 = () => {
 
   const [data, setData] = useState([]);
   const [newRow, setNewRow] = useState({
-    image: null,
     'Product Name': '',
     Rating: '',
     Origin: '',
@@ -19,75 +18,61 @@ const Page1 = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Product',
-        accessor: 'Product Name',
-        Cell: ({ row }) => (
-          <div className="client-cell">
-            <div className="client-logo">
-              {row.original.image ? (
-                <img src={row.original.image} alt="product" />
-              ) : (
-                <span className="logo-placeholder">🍵</span>
-              )}
-            </div>
-            <div className="client-main">
-              <div className="client-title">
-                {row.original['Product Name']}
-              </div>
-              <div className="client-sub">{row.original.Origin}</div>
-            </div>
-          </div>
-        ),
-      },
-      { Header: 'Rating', accessor: 'Rating' },
-      { Header: 'Value/g', accessor: 'Rating/Price per g' },
-    ],
-    []
-  );
+  // const columns = useMemo(
+  //   () => [
+  //     {
+  //       Header: 'Product',
+  //       accessor: 'Product Name',
+  //       Cell: ({ row }) => (
+  //         <div className="client-cell">
+  //           <div className="client-main">
+  //             <div className="client-title">
+  //               {row.original['Product Name']}
+  //             </div>
+  //             <div className="client-sub">{row.original.Origin}</div>
+  //           </div>
+  //         </div>
+  //       ),
+  //     },
+  //     { Header: 'Rating', accessor: 'Rating' },
+  //     { Header: 'Value/g', accessor: 'Rating/Price per g',id: 'valuePerG', },
+  //   ],
+  //   []
+  // );
 
-  useEffect(() => {
-    if (authLoading) return;
-    if (!userId) {
-      setLoading(false);
-      setError('Please log in first');
-      return;
-    }
+useEffect(() => {
+  setLoading(true);
+  setError(null);
 
-    const url =
-      `https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking` +
-      `?user_id=${encodeURIComponent(userId)}`;
+  const url = `http://136.110.166.166/expenses/`;
 
-    fetch(url, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+  fetch(url, {
+    method: 'GET',
+   
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`${res.status}: ${text}`);
+      }
+      return res.json();
     })
-      .then(async (res) => {
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`${res.status}: ${text}`);
-        }
-        return res.json();
-      })
-      .then((json) => {
-        const items = json.items || [];
-        const formatted = items.map((item) => ({
-          image: null,
-          'Product Name': item.name,
-          Rating: item.rating,
-          Origin: item.origin,
-          'Rating/Price per g': item.cost_per_gram,
-        }));
-        setData(formatted);
-        setError(null);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => setLoading(false));
-  }, [userId, authLoading]);
+    .then((json) => {
+      const items = json || [];
+      const formatted = items.map((item) => ({
+        image: null,
+        'Product Name': item.order_name,
+        Rating: item.type,
+        Origin: item.location,
+        'Rating/Price per g': item.cost,
+      }));
+      setData(formatted);
+    })
+    .catch((err) => {
+      setError(err.message);
+    })
+    .finally(() => setLoading(false));
+}, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -102,17 +87,74 @@ const Page1 = () => {
     setNewRow((prev) => ({ ...prev, image: url }));
   };
 
-  const handleAddRow = (e) => {
+  const handleAddRow = async (e) => {
     e.preventDefault();
-    setData((prev) => [...prev, newRow]);
-    setNewRow({
-      image: null,
-      'Product Name': '',
-      Rating: '',
-      Origin: '',
-      'Rating/Price per g': ''
-    });
-    setPreviewUrl(null);
+
+    const effectiveUserId = userId || localStorage.getItem("user_id");
+    if (!effectiveUserId) {
+      setError("User not logged in");
+      return;
+    }
+
+    const payload = {
+      id: crypto.randomUUID(),
+      user_id: effectiveUserId,
+      items: [
+        {
+          name: newRow["Product Name"],
+          origin: newRow.Origin,
+          rating: parseFloat(newRow.Rating),
+          cost_per_gram: parseFloat(newRow["Rating/Price per g"]),
+        },
+      ],
+    };
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`/expenses`, {
+        method: "POST",
+       
+        body: JSON.stringify(payload),
+      });
+
+      const text = await res.text();
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch {
+        throw new Error(`Unexpected response: ${text}`);
+      }
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: ${JSON.stringify(json)}`);
+      }
+
+      const items = Array.isArray(json.items) ? json.items : [];
+      const formatted = items.map((item) => ({
+        image: null,
+        "Product Name": item.name ?? "",
+        Rating: item.rating ?? "",
+        Origin: item.origin ?? "",
+        "Rating/Price per g": item.cost_per_gram ?? "",
+      }));
+
+      setData((prev) => [...prev, ...formatted]);
+      setNewRow({
+        image: null,
+        "Product Name": "",
+        Rating: "",
+        Origin: "",
+        "Rating/Price per g": "",
+      });
+      setPreviewUrl(null);
+    } catch (err) {
+      console.error("Failed to add ranking", err);
+      setError(err.message || "Failed to add ranking");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteRow = (index) => {
@@ -127,9 +169,8 @@ const Page1 = () => {
 
       <div className="page2">
         <div className="page2-inner">
-         
           <div className="page2-header">
-            <h1 className="page2-title">Budget Matcha Planning</h1>
+            <h1 className="page2-title">Matcha Budget</h1>
             <div className="page2-header-actions">
               <button className="btn-filters">Filters</button>
               <button className="btn-new-matcha">+ New Matcha</button>
@@ -150,30 +191,15 @@ const Page1 = () => {
               {!loading && !error && data.length === 0 && (
                 <p>No ranking items available yet.</p>
               )}
-              {!loading && !error && data.length > 0 && (
-                <Table
-                  columns={columns}
-                  data={data}
-                  handleDeleteRow={handleDeleteRow}
-                />
-              )}
 
-           
+
+              {!loading && !error && data.length > 0 && (
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+              )}
+    
+
               <form onSubmit={handleAddRow} className="inline-form-row">
                 <div className="client-cell">
-                  <label className="upload-logo">
-                    {previewUrl ? (
-                      <img src={previewUrl} alt="preview" />
-                    ) : (
-                      <span className="logo-placeholder">+</span>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      hidden
-                    />
-                  </label>
                   <div className="client-main">
                     <input
                       className="input-plain"

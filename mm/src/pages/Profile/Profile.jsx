@@ -19,6 +19,7 @@ const Profile = () => {
 
   const [loading, setLoading] = useState(() => !localStorage.getItem('user_profile'));
   const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
@@ -62,7 +63,49 @@ const Profile = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       localStorage.clear();
       sessionStorage.clear();
-      navigate('/');
+      navigate('/'); 
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const userId = localStorage.getItem('user_id');
+    
+    if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      return;
+    }
+
+    if (!window.confirm('This will permanently delete your account and all your data. Continue?')) {
+      return;
+    }
+
+    setDeleting(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`https://matcha-api-ktr6lb33ta-uc.a.run.app/users/${userId}`, {
+        method: 'DELETE',
+        headers: {
+          accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete account: ${response.status} ${response.statusText}`);
+      }
+
+      // Clear all local storage and session storage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Navigate to LOGIN page
+      navigate('/login');
+      
+    } catch (err) {
+      console.error('Error deleting account:', err);
+      setError(err.message);
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -82,14 +125,13 @@ const Profile = () => {
         <div className="profile-wrapper">
           <div className="about-window">
             <div className={`about-content profile-card ${profile && !error ? 'fade-in' : ''}`}>
-<div className="avatar-circle">
-  <img
-    src={matchaIcon}
-    alt="Matcha"
-    className={`avatar-image ${!profile || error ? 'skeleton-avatar' : ''}`}
-  />
-</div>
-
+              <div className="avatar-circle">
+                <img
+                  src={matchaIcon}
+                  alt="Matcha"
+                  className={`avatar-image ${!profile || error ? 'skeleton-avatar' : ''}`}
+                />
+              </div>
 
               <h2 className={`name ${!profile || error ? 'skeleton-text' : ''}`}>
                 {profile && !error ? `${profile.first_name} ${profile.last_name}` : ''}
@@ -172,10 +214,26 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Logout button directly below card */}
-          <button className="logout-btn" type="button" onClick={handleLogout}>
-            Logout
-          </button>
+          {/* Action buttons */}
+          <div className="profile-actions">
+            <button 
+              className="logout-btn" 
+              type="button" 
+              onClick={handleLogout}
+              disabled={deleting}
+            >
+              Logout
+            </button>
+            
+            <button 
+              className="delete-btn"
+              type="button" 
+              onClick={handleDeleteAccount}
+              disabled={deleting || loading}
+            >
+              {deleting ? 'Deleting...' : 'Delete Account'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

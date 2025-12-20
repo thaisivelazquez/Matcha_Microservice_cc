@@ -70,7 +70,7 @@ const PrefPage = () => {
     } finally {
       setLoading(false);
       setFadeOut(true);
-      setTimeout(() => navigate("/matchasession"), 800);
+      setTimeout(() => navigate("/home"), 800);
     }
   };
 
