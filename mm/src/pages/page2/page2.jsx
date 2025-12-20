@@ -3,13 +3,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import './page2.css';
 import Navbar from '../../components/Navbar/Navbar';
 import Table from '../../components/Table/Table';
-
+import { useReactTable } from '@tanstack/react-table';
 const Page2 = () => {
   const { userId, loading: authLoading } = useAuth();
 
   const [data, setData] = useState([]);
   const [newRow, setNewRow] = useState({
-    image: null,
     'Product Name': '',
     Rating: '',
     Origin: '',
@@ -19,34 +18,27 @@ const Page2 = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: 'Product',
-        accessor: 'Product Name',
-        Cell: ({ row }) => (
-          <div className="client-cell">
-            <div className="client-logo">
-              {row.original.image ? (
-                <img src={row.original.image} alt="product" />
-              ) : (
-                <span className="logo-placeholder">🍵</span>
-              )}
-            </div>
-            <div className="client-main">
-              <div className="client-title">
-                {row.original['Product Name']}
-              </div>
-              <div className="client-sub">{row.original.Origin}</div>
-            </div>
-          </div>
-        ),
-      },
-      { Header: 'Rating', accessor: 'Rating' },
-      { Header: 'Value/g', accessor: 'Rating/Price per g' },
-    ],
-    []
-  );
+  // const columns = useMemo(
+  //   () => [
+  //     {
+  //       Header: 'Product',
+  //       accessor: 'Product Name',
+  //       Cell: ({ row }) => (
+  //         <div className="client-cell">
+  //           <div className="client-main">
+  //             <div className="client-title">
+  //               {row.original['Product Name']}
+  //             </div>
+  //             <div className="client-sub">{row.original.Origin}</div>
+  //           </div>
+  //         </div>
+  //       ),
+  //     },
+  //     { Header: 'Rating', accessor: 'Rating' },
+  //     { Header: 'Value/g', accessor: 'Rating/Price per g',id: 'valuePerG', },
+  //   ],
+  //   []
+  // );
 
   useEffect(() => {
     if (authLoading) return;
@@ -58,9 +50,7 @@ const Page2 = () => {
       return;
     }
 
-    const url =
-      `https://matchamania-rankings-api-945802238964.us-central1.run.app/ranking` +
-      `?user_id=${encodeURIComponent(effectiveUserId)}`;
+  const url = `/ranking?user_id=${encodeURIComponent(effectiveUserId)}`;
 
     const idToken = localStorage.getItem('google_id_token');
 
@@ -71,7 +61,6 @@ const Page2 = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        ...(idToken && { Authorization: `Bearer ${idToken}` }),
       },
     })
       .then(async (res) => {
@@ -82,21 +71,21 @@ const Page2 = () => {
         return res.json();
       })
       .then((json) => {
-        const outer = Array.isArray(json) ? json : [];
-        const rankings = Array.isArray(outer[0]) ? outer[0] : [];
+        console.log(json)
+      const rankings = Array.isArray(json) ? json : [];
 
-        const ranking =
-          rankings.find((r) => r.user_id === effectiveUserId) || rankings[0];
+    
+      const ranking =
+        rankings.find((r) => r.user_id === effectiveUserId) || rankings[0];
 
-        const items =
-          ranking && Array.isArray(ranking.items) ? ranking.items : [];
+      const items = Array.isArray(ranking?.items) ? ranking.items : [];
 
-        const formatted = items.map((item) => ({
-          image: null,
-          'Product Name': item.name ?? '',
-          Rating: item.rating ?? '',
-          Origin: item.origin ?? '',
-          'Rating/Price per g': item.cost_per_gram ?? '',
+      const formatted = items.map((item) => ({
+        image: null,
+        'Product Name': item.name ?? '',
+        Rating: item.rating ?? '',
+        Origin: item.origin ?? '',
+        'Rating/Price per g': item.cost_per_gram ?? '',
         }));
 
         setData(formatted);
@@ -122,17 +111,74 @@ const Page2 = () => {
     setNewRow((prev) => ({ ...prev, image: url }));
   };
 
-  const handleAddRow = (e) => {
+  const handleAddRow = async (e) => {
     e.preventDefault();
-    setData((prev) => [...prev, newRow]);
-    setNewRow({
-      image: null,
-      'Product Name': '',
-      Rating: '',
-      Origin: '',
-      'Rating/Price per g': ''
-    });
-    setPreviewUrl(null);
+
+    const effectiveUserId = userId || localStorage.getItem("user_id");
+    if (!effectiveUserId) {
+      setError("User not logged in");
+      return;
+    }
+
+    const payload = {
+      id: crypto.randomUUID(),
+      user_id: effectiveUserId,
+      items: [
+        {
+          name: newRow["Product Name"],
+          origin: newRow.Origin,
+          rating: parseFloat(newRow.Rating),
+          cost_per_gram: parseFloat(newRow["Rating/Price per g"]),
+        },
+      ],
+    };
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch(`/ranking`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const text = await res.text();
+      let json;
+      try {
+        json = JSON.parse(text);
+      } catch {
+        throw new Error(`Unexpected response: ${text}`);
+      }
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: ${JSON.stringify(json)}`);
+      }
+
+      const items = Array.isArray(json.items) ? json.items : [];
+      const formatted = items.map((item) => ({
+        image: null,
+        "Product Name": item.name ?? "",
+        Rating: item.rating ?? "",
+        Origin: item.origin ?? "",
+        "Rating/Price per g": item.cost_per_gram ?? "",
+      }));
+
+      setData((prev) => [...prev, ...formatted]);
+      setNewRow({
+        image: null,
+        "Product Name": "",
+        Rating: "",
+        Origin: "",
+        "Rating/Price per g": "",
+      });
+      setPreviewUrl(null);
+    } catch (err) {
+      console.error("Failed to add ranking", err);
+      setError(err.message || "Failed to add ranking");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteRow = (index) => {
@@ -169,29 +215,15 @@ const Page2 = () => {
               {!loading && !error && data.length === 0 && (
                 <p>No ranking items available yet.</p>
               )}
+
+
               {!loading && !error && data.length > 0 && (
-                <Table
-                  columns={columns}
-                  data={data}
-                  handleDeleteRow={handleDeleteRow}
-                />
+                <pre>{JSON.stringify(data, null, 2)}</pre>
               )}
+    
 
               <form onSubmit={handleAddRow} className="inline-form-row">
                 <div className="client-cell">
-                  <label className="upload-logo">
-                    {previewUrl ? (
-                      <img src={previewUrl} alt="preview" />
-                    ) : (
-                      <span className="logo-placeholder">+</span>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      hidden
-                    />
-                  </label>
                   <div className="client-main">
                     <input
                       className="input-plain"
