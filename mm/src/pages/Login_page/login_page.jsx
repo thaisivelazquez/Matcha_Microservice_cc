@@ -128,7 +128,7 @@ function LoginPage() {
     const res = await fetch('https://matcha-composite-service-578543055940.us-central1.run.app/auth/dev-login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
+   body: JSON.stringify({ email: googleUser.email })
   });
   
   const data = await res.json();
@@ -290,7 +290,7 @@ function LoginPage() {
  
 
       setFadeOut(true);
-      setTimeout(() => navigate("/matchasession"), 800);
+      setTimeout(() => navigate("/home"), 800);
     } catch (error) {
       console.error(error);
       alert("Login failed.");
