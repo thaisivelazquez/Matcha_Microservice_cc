@@ -53,15 +53,13 @@ const Home = () => {
   const formatMoney = (value) =>
     typeof value === 'number' ? `$${value.toFixed(0)}` : '—';
 
+
   return (
     <div className="home-root">
       <Navbar />
 
       <div className="matcha-title-bar">
-        <h2 className="matcha-title">Welcome to your Matcha Sessions Tracker</h2>
-        <div className="matcha-title">
-          Here's a sumary of all your matcha habbits
-        </div>
+        <h2 className="matcha-title">Welcome to your Matcha Sessions summary</h2>
       </div>
 
       <div className="dashboard">
@@ -122,6 +120,7 @@ const Home = () => {
           </div>
         </section>
 
+        {/* Rest of your code remains unchanged */}
         {/* TOP-RIGHT: profile card */}
         <section className="card card-profile top-right">
           <div className="profile-top">
@@ -133,11 +132,11 @@ const Home = () => {
                 </h2>
               </div>
               <div className="profile-favorite">
-  Average ranking score:{' '}
-  {summary?.averageRankingScore != null 
-    ? summary.averageRankingScore.toFixed(1) 
-    : "0.0"}
-</div>
+               Average ranking score:{' '}
+               {summary?.averageRankingScore != null 
+                 ? summary.averageRankingScore.toFixed(1) 
+                 : "0.0"}
+              </div>
             </div>
           </div>
 

@@ -539,6 +539,48 @@ body {
     'Courier New', monospace;
 }
 
+
+
+.edit-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;  /* Changed from left to right */
+  left: auto;  /* Reset left positioning */
+  background-color: #4ade80; /* Green color */
+  color: white;
+  border: none;
+  border-radius: 40px; /* 40px border radius for pill shape */
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.3);
+  transition: all 0.2s ease;
+  z-index: 20;
+}
+
+.edit-button:hover {
+  background-color: #22c55e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+}
+
+.edit-button:active {
+  transform: translateY(0);
+}
+
+.card.card-shop.top-left {
+  position: relative; /* Makes entire card the positioning context */
+}
+
+.card-header {
+  padding: 20px; /* Normal padding since button is now on the right */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
 .error-text {
   color: #d9534f;
 }

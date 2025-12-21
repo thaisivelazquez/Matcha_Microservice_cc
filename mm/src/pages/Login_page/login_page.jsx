@@ -313,7 +313,7 @@ function LoginPage() {
 
         <div className={`sign-up-right ${slide ? "fade-out" : "fade-in-right"}`}>
           <form className="sign-up-form" onSubmit={handleSignup}>
-            <h1>Welcome!</h1>
+            <h1>Welcome, Signup to Matchamania to keep track of your matcha habits!</h1>
 
             <label>First Name</label>
             <input
@@ -416,7 +416,7 @@ function LoginPage() {
 
         <div className={`sign-up-right ${!slide ? "fade-out" : "fade-in-left"}`}>
           <form className="sign-up-form" onSubmit={handleLogin}>
-            <h1>Welcome back!</h1>
+            <h1>Welcome back to Matchamania !</h1>
 
             <label>Email</label>
             <input
