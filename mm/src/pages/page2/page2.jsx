@@ -9,12 +9,12 @@ const API_BASE_URL =
 const Page2 = () => {
   const { userId, loading: authLoading } = useAuth();
 
-  const [data, setData] = useState([]); // rows with rankingId + itemIndex
+  const [data, setData] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [deleteMode, setDeleteMode] = useState(false);
-  const [editMode, setEditMode] = useState(false); // global edit mode
+  const [editMode, setEditMode] = useState(false); 
 
   const [newRow, setNewRow] = useState({
     "Product Name": "",
@@ -176,7 +176,7 @@ const Page2 = () => {
     }
   };
 
-  // PATCH /ranking/{id}/item/{item_index}
+
   const handlePatchItem = async (row) => {
     const { rankingId, itemIndex, Rating, ["Rating/Price per g"]: price } = row;
 
@@ -220,7 +220,7 @@ const Page2 = () => {
     }
   };
 
-  // update fields while in global edit mode (used before calling handlePatchItem manually if you want)
+  
   const handleEditFieldChange = (rowId, field, value) => {
     setData((prev) =>
       prev.map((row) =>
@@ -267,7 +267,7 @@ const Page2 = () => {
                 </button>
               )}
 
-              {/* Delete toggle */}
+              
               {!deleteMode ? (
                 <button
                   type="button"
@@ -308,7 +308,7 @@ const Page2 = () => {
 
               {loading && <div className="loader">Updating...</div>}
 
-              {/* Table body */}
+              
               <div className="table-scroll">
                 {data.map((row, index) => (
                   <div
@@ -325,13 +325,13 @@ const Page2 = () => {
                       <div className="client-sub">{row.Origin}</div>
                     </div>
 
-                    {/* Origin */}
+                   
                     <div className="col-date">
                       <div className="date-main">{row.Origin}</div>
                       <div className="date-sub">Single origin</div>
                     </div>
 
-                    {/* Rating */}
+                   
                     <div className="col-status">
                       {editMode ? (
                         <input
@@ -354,7 +354,7 @@ const Page2 = () => {
                       )}
                     </div>
 
-                    {/* Price */}
+                  
                     <div className="col-amount">
                       {editMode ? (
                         <input
@@ -380,7 +380,7 @@ const Page2 = () => {
                       )}
                     </div>
 
-                    {/* Actions column */}
+                    
                     <div className="col-delete">
                       {deleteMode ? (
                         <button
@@ -396,7 +396,7 @@ const Page2 = () => {
                 ))}
               </div>
 
-              {/* Add form */}
+            
               <form onSubmit={handleAddRow} className="inline-form-row">
                 <input
                   name="Product Name"

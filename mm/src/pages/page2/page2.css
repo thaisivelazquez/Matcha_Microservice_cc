@@ -25,7 +25,7 @@
   color: #4c374f;
 }
 
-/* Card */
+
 .card {
   background: #ffffff;
   border-radius: 16px;
@@ -37,10 +37,9 @@
   width: 100%;
 }
 
-/* Header row */
+
 .table-header {
   display: grid;
-  /* 4 main columns; the last one is narrow and only used in delete mode */
   grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 70px;
   font-size: 0.78rem;
   text-transform: uppercase;
@@ -57,13 +56,12 @@
   padding: 0 0.5rem;
 }
 
-/* Scroll area */
 .table-scroll {
   max-height: 420px;
   overflow-y: auto;
 }
 
-/* Table rows: default 4 columns */
+
 .table-row {
   display: grid;
   grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr;
@@ -73,12 +71,12 @@
   margin-bottom: 0.4rem;
 }
 
-/* Row layout when delete column is visible (5th narrow column) */
+
 .table-row.with-delete {
   grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 70px;
 }
 
-/* Alternating colors */
+
 .row-pink {
   background: #ffdbe7;
 }
@@ -87,7 +85,7 @@
   background: #74a662;
 }
 
-/* Product column */
+
 .col-client {
   display: flex;
   flex-direction: column;
@@ -105,7 +103,7 @@
   color: #010309;
 }
 
-/* Origin column */
+
 .col-date {
   display: flex;
   flex-direction: column;
@@ -124,7 +122,7 @@
   color: #4c374f;
 }
 
-/* Rating pill column */
+
 .col-status {
   display: flex;
   justify-content: flex-start;
@@ -144,7 +142,7 @@
   color: #166534;
 }
 
-/* Amount column */
+
 .col-amount {
   text-align: right;
   display: flex;
@@ -163,7 +161,7 @@
   color: #4c374f;
 }
 
-/* Form row */
+
 .inline-form-row {
   display: grid;
   grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 0.9fr;
@@ -201,7 +199,7 @@
   cursor: default;
 }
 
-/* Delete mode toggle under title */
+
 .delete-toggle-wrapper {
   margin-top: 0.75rem;
 }
@@ -223,14 +221,13 @@
   color: #ffffff;
 }
 
-/* Cell containing row delete button */
+
 .col-delete {
   display: flex;
-  justify-content: flex-start; /* move button a bit left */
+  justify-content: flex-start; 
   padding-left: 0.3rem;
 }
 
-/* Delete button itself */
 .row-delete-button {
   border: none;
   border-radius: 999px;
@@ -243,7 +240,7 @@
   margin-left: 0;
 }
 
-/* Misc banners/loaders */
+
 .error-banner {
   margin-bottom: 0.75rem;
   padding: 0.6rem 0.9rem;
