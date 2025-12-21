@@ -1,263 +1,265 @@
-
 .page2 {
-  background: linear-gradient(135deg, #f5f7ff, #fef6ff);
-  min-height: calc(100vh - 80px); 
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: #f7f7fb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 .page2-inner {
-  padding: 24px 32px 40px;
+  width: 100%;
+  max-width: 960px;
 }
-
 
 .page2-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;          
-  justify-content: center;
-  gap: 12px;                   
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
-
 
 .page2-title {
   font-size: 36px;
   font-weight: 700;
   letter-spacing: 0.01em;
   margin: 0;
-  color:#4c374f;
+  color: #4c374f;
 }
 
-
-.page2-header-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-
-
-.btn-filters {
-  border-radius: 999px;
-  border: 1px solid #d9e2ec;
+/* Card */
+.card {
   background: #ffffff;
-  padding: 8px 18px;
-  font-size: 14px;
-  cursor: pointer;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.card-table {
+  width: 100%;
+}
+
+/* Header row */
+.table-header {
+  display: grid;
+  /* 4 main columns; the last one is narrow and only used in delete mode */
+  grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 70px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.th-client,
+.th-date,
+.th-status,
+.th-amount,
+.th-delete {
+  padding: 0 0.5rem;
+}
+
+/* Scroll area */
+.table-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Table rows: default 4 columns */
+.table-row {
+  display: grid;
+  grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr;
+  align-items: center;
+  padding: 0.9rem 0.5rem;
+  border-radius: 12px;
+  margin-bottom: 0.4rem;
+}
+
+/* Row layout when delete column is visible (5th narrow column) */
+.table-row.with-delete {
+  grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 70px;
+}
+
+/* Alternating colors */
+.row-pink {
+  background: #ffdbe7;
+}
+
+.row-green {
+  background: #74a662;
+}
+
+/* Product column */
+.col-client {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.client-main {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4c374f;
+}
+
+.client-sub {
+  font-size: 0.75rem;
+  color: #010309;
+}
+
+/* Origin column */
+.col-date {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0.78rem;
   color: #4b5563;
 }
 
-
-.btn-new-matcha {
-  border-radius: 999px;
-  border: none;
-  padding: 8px 22px;
-  font-size: 14px;
-  cursor: pointer;
-  background: #5a8a3a; 
-  color: #ffffff;
-  box-shadow: 0 10px 25px rgba(90, 138, 58, 0.35);
+.date-main {
+  font-weight: 500;
+  color: #111827;
 }
 
-.btn-new-matcha:hover {
-  background: #4b7330;
+.date-sub {
+  font-size: 0.72rem;
+  color: #4c374f;
 }
 
-
-.btn-primary {
-  border-radius: 999px;
-  border: none;
-  padding: 8px 22px;
-  font-size: 14px;
-  cursor: pointer;
-  background: #5a8a3a;
-  color: #ffffff;
-}
-
-
-.card {
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.12);
-  padding: 18px 0 12px;
-}
-
-
-.card-toolbar {
-  padding: 0 24px 14px;
+/* Rating pill column */
+.col-status {
   display: flex;
   justify-content: flex-start;
 }
 
-.search-input {
-  width: 280px;
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid #e5e7eb;
-  padding: 9px 16px;
-  font-size: 14px;
-  outline: none;
-  background: #f9fafb;
+  font-size: 0.74rem;
+  font-weight: 500;
 }
 
-.search-input:focus {
-  border-color: #5a8a3a;
-  background: #ffffff;
+.status-rating {
+  background: #dcfce7;
+  color: #166534;
 }
 
-
-.card-table {
-  border-top: 1px solid #f3f4f6;
-  padding: 10px 18px 12px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-
-.card-table table tbody tr:nth-child(odd) {
-  background-color: #ffd1dc1a;
-}
-
-.card-table table tbody tr:nth-child(even) {
-  background-color: #5a8a3a0f; 
-}
-
-.card-table table tbody tr {
-  transition: background-color 0.15s ease;
-}
-
-.card-table table tbody tr:hover {
-  background-color: #ffffff;
-}
-
-
-.error-text {
-  color: #ef4444;
-  padding: 8px 0;
-}
-
-
-.client-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-
-.client-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background: #020617;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.client-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.logo-placeholder {
-  color: #e5e7eb;
-  font-size: 18px;
-}
-
-
-.client-main {
+/* Amount column */
+.col-amount {
+  text-align: right;
   display: flex;
   flex-direction: column;
+  gap: 0.1rem;
 }
 
-.client-title {
+.amount-main {
+  font-size: 0.86rem;
   font-weight: 600;
-  font-size: 14px;
+  color: #111827;
 }
 
-.client-sub {
-  font-size: 12px;
-  color: #9ca3af;
+.amount-sub {
+  font-size: 0.72rem;
+  color: #4c374f;
 }
 
-
+/* Form row */
 .inline-form-row {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) 0.6fr 0.7fr auto;
-  align-items: center;
-  padding: 12px 6px 8px;
-  gap: 12px;
-  border-top: 1px dashed #e5e7eb;
-  margin-top: 6px;
+  grid-template-columns: 2.4fr 1.4fr 1fr 1.1fr 0.9fr;
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
-/* Upload logo button */
-.upload-logo {
-  cursor: pointer;
-}
-
-
-.input-plain {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  padding: 0;
-  background: transparent;
-}
-
-.input-plain::placeholder {
-  color: #9ca3af;
-}
-
-.input-plain.sub {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-
-.inline-number {
-  width: 100%;
+.inline-form-row input {
   border-radius: 999px;
   border: 1px solid #e5e7eb;
-  padding: 7px 12px;
-  font-size: 13px;
-  outline: none;
-  background: #f9fafb;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.8rem;
 }
 
-.inline-number:focus {
-  border-color: #5a8a3a;
-  background: #ffffff;
-}
-
-
-.btn-add-row {
+.inline-form-row select.origin-select {
   border-radius: 999px;
-  border: none;
-  padding: 7px 18px;
-  font-size: 13px;
-  cursor: pointer;
-  background: #ffd1dc; 
-  color: #374151;
-  box-shadow: 0 6px 16px rgba(255, 209, 220, 0.7);
+  border: 1px solid #e5e7eb;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  background-color: #ffffff;
+  color: #111827;
 }
 
+.inline-form-row button {
+  border-radius: 999px;
+  background: #ffdbe7;
+  color: #4c374f;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+}
 
-@media (max-width: 768px) {
-  .page2-inner {
-    padding: 20px 16px 28px;
-  }
+.inline-form-row button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
 
-  .page2-header {
-    gap: 10px;
-  }
+/* Delete mode toggle under title */
+.delete-toggle-wrapper {
+  margin-top: 0.75rem;
+}
 
-  .page2-header-actions {
-    flex-wrap: wrap;
-  }
+.delete-toggle-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffdbe7;
+  color: #4c374f;
+  box-shadow: 0 3px 10px rgba(76, 55, 79, 0.25);
+}
 
-  .inline-form-row {
-    grid-template-columns: minmax(0, 1.6fr);
-    grid-auto-rows: auto;
-    row-gap: 10px;
-  }
+.delete-toggle-button.done {
+  background: #74a662;
+  color: #ffffff;
+}
+
+/* Cell containing row delete button */
+.col-delete {
+  display: flex;
+  justify-content: flex-start; /* move button a bit left */
+  padding-left: 0.3rem;
+}
+
+/* Delete button itself */
+.row-delete-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffffff;
+  color: #b91c1c;
+  margin-left: 0;
+}
+
+/* Misc banners/loaders */
+.error-banner {
+  margin-bottom: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #b91c1c;
+  font-size: 0.8rem;
+}
+
+.loader {
+  font-size: 0.8rem;
+  color: #4c374f;
+  margin-bottom: 0.5rem;
+}
+
+.loading-screen {
+  padding: 2rem;
+  text-align: center;
 }
