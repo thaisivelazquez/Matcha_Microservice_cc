@@ -9,12 +9,12 @@ const API_BASE_URL =
 const Page2 = () => {
   const { userId, loading: authLoading } = useAuth();
 
-  const [data, setData] = useState([]); 
+  const [data, setData] = useState([]); // rows with rankingId + itemIndex
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [deleteMode, setDeleteMode] = useState(false);
-  const [editMode, setEditMode] = useState(false); 
+  const [editMode, setEditMode] = useState(false); // global edit mode
 
   const [newRow, setNewRow] = useState({
     "Product Name": "",
@@ -47,9 +47,8 @@ const Page2 = () => {
     return rows;
   };
 
-  useEffect(() => {
-    if (authLoading) return;
-
+  // Shared fetch function so it can be reused after edits
+  const fetchRankings = async () => {
     const effectiveUserId = userId || localStorage.getItem("user_id");
     if (!effectiveUserId) {
       setError("Please log in to view rankings");
@@ -57,25 +56,26 @@ const Page2 = () => {
       return;
     }
 
-    const fetchRankings = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/ranking?user_id=${effectiveUserId}`
-        );
-        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/ranking?user_id=${effectiveUserId}`
+      );
+      if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
 
-        const json = await response.json();
-        const rankings = Array.isArray(json) ? json : [json];
-        setData(formatRankingsToRows(rankings));
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const json = await response.json();
+      const rankings = Array.isArray(json) ? json : [json];
+      setData(formatRankingsToRows(rankings));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    if (authLoading) return;
     fetchRankings();
   }, [userId, authLoading]);
 
@@ -176,7 +176,7 @@ const Page2 = () => {
     }
   };
 
-
+  // PATCH /ranking/{id}/item/{item_index}
   const handlePatchItem = async (row) => {
     const { rankingId, itemIndex, Rating, ["Rating/Price per g"]: price } = row;
 
@@ -185,48 +185,52 @@ const Page2 = () => {
       cost_per_gram: clampGrams(price),
     };
 
-    try {
-      setLoading(true);
-      setError(null);
-
-      const res = await fetch(
-        `${API_BASE_URL}/ranking/${rankingId}/item/${itemIndex}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
-
-      if (!res.ok) {
-        let reason = `Failed to update item (${res.status})`;
-        try {
-          const errJson = await res.json();
-          reason += `: ${JSON.stringify(errJson)}`;
-        } catch (_) {}
-        throw new Error(reason);
+    const res = await fetch(
+      `${API_BASE_URL}/ranking/${rankingId}/item/${itemIndex}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
       }
+    );
 
-      const updatedRanking = await res.json();
-      setData((prev) => {
-        const others = prev.filter((r) => r.rankingId !== rankingId);
-        const updatedRows = formatRankingsToRows([updatedRanking]);
-        return [...others, ...updatedRows];
-      });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      let reason = `Failed to update item (${res.status})`;
+      try {
+        const errJson = await res.json();
+        reason += `: ${JSON.stringify(errJson)}`;
+      } catch (_) {}
+      throw new Error(reason);
     }
+
+    // read body to consume response; UI will refresh via fetchRankings
+    await res.json();
   };
 
-  
+  // update fields locally while in edit mode
   const handleEditFieldChange = (rowId, field, value) => {
     setData((prev) =>
       prev.map((row) =>
         row.rowId === rowId ? { ...row, [field]: value } : row
       )
     );
+  };
+
+  // Save all edits when leaving edit mode
+  const saveAllEdits = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      for (const row of data) {
+        await handlePatchItem(row);
+      }
+      await fetchRankings();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (authLoading) {
@@ -259,7 +263,7 @@ const Page2 = () => {
                   type="button"
                   className="delete-toggle-button done"
                   onClick={async () => {
-                    // optional: batch-save all rows here if needed
+                    await saveAllEdits();
                     setEditMode(false);
                   }}
                 >
@@ -267,7 +271,7 @@ const Page2 = () => {
                 </button>
               )}
 
-              
+              {/* Delete toggle */}
               {!deleteMode ? (
                 <button
                   type="button"
@@ -308,7 +312,7 @@ const Page2 = () => {
 
               {loading && <div className="loader">Updating...</div>}
 
-              
+              {/* Table body */}
               <div className="table-scroll">
                 {data.map((row, index) => (
                   <div
@@ -325,13 +329,13 @@ const Page2 = () => {
                       <div className="client-sub">{row.Origin}</div>
                     </div>
 
-                   
+                    {/* Origin */}
                     <div className="col-date">
                       <div className="date-main">{row.Origin}</div>
                       <div className="date-sub">Single origin</div>
                     </div>
 
-                   
+                    {/* Rating */}
                     <div className="col-status">
                       {editMode ? (
                         <input
@@ -354,7 +358,7 @@ const Page2 = () => {
                       )}
                     </div>
 
-                  
+                    {/* Price */}
                     <div className="col-amount">
                       {editMode ? (
                         <input
@@ -380,7 +384,7 @@ const Page2 = () => {
                       )}
                     </div>
 
-                    
+                    {/* Actions column */}
                     <div className="col-delete">
                       {deleteMode ? (
                         <button
@@ -396,7 +400,7 @@ const Page2 = () => {
                 ))}
               </div>
 
-            
+              {/* Add form */}
               <form onSubmit={handleAddRow} className="inline-form-row">
                 <input
                   name="Product Name"
