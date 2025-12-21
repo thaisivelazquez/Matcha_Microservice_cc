@@ -1,54 +1,557 @@
-.background-img {
-  height: 350px;        
-  width: 100%;
-  object-fit: cover;   
-  object-position: center;
-  display: block;
+:root {
+  --bg: #f7fbfa;
+  --card-bg: #fffaf1;
+  --card-bg-alt: #fffdf7;
+  --accent: #f7c76c;
+  --accent-green: #76c28b;
+  --accent-pink: #f6a6c8;
+  --text-main: #4b5c5a;
+  --text-muted: #8c9b99;
+  --border-radius-lg: 18px;
+  --border-radius-sm: 12px;
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
+  --font-main: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
 }
 
-
-.description-box {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(41, 38, 38, 0.3); 
-  padding: 20px;
-  border-radius: 20px;
-  max-width: 80%;
-  text-align: center;
-  color: rgb(255, 255, 255); 
-  z-index: 10;
-}
-
-.description-text {
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-h1 {
-  text-align: center; 
+body {
   margin: 0;
-  margin-top: 20px; 
-  
+  font-family: var(--font-main);
 }
 
-.description-box {
-  text-align: center; 
+.home-root {
+  min-height: 100vh;
+  background: #ffd1dc;
 }
 
+.matcha-title-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2.5rem 0.4rem;
+  text-align: center;
+}
 
-.container {
+.matcha-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #4c374f;
+}
+
+/* ---------- Dashboard layout ---------- */
+
+.dashboard {
+  max-width: 1120px;
+  margin: 32px auto 64px;
+  padding: 0 16px 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'top-left top-right'
+    'bottom-full bottom-full';
+  grid-gap: 24px;
+}
+
+.top-left {
+  grid-area: top-left;
+}
+
+.top-right {
+  grid-area: top-right;
+}
+
+.bottom-full {
+  grid-area: bottom-full;
+}
+
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'top-left'
+      'top-right'
+      'bottom-full';
+  }
+}
+
+/* ---------- Generic card styles ---------- */
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shop,
+.card-event {
+  background: var(--card-bg-alt);
+}
+
+.card-header {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  height: 100vh; 
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.card{
-    display: flex;
-    margin-left: 60px; 
-    align-items: center; 
-    margin-top: 70px;
+.card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--text-main);
+}
+
+.card-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+/* ---------- Badge images (actual icons) ---------- */
+
+.badge-icon {
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #ffe8b5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  margin-left: 6px; /* move slightly away from left edge */
+}
+
+.badge-header-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.badge-item-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+}
+
+.avatar-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 20px;
+  margin-left: 10px; /* a bit more space in profile card */
+}
+
+.message-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.visitor-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.small-badge-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.shop-icon-placeholder,
+.analytics-icon-placeholder,
+.avatar-placeholder,
+.event-character-placeholder,
+.message-icon-placeholder,
+.visitor-icon-placeholder,
+.small-icon-placeholder,
+.item-icon-placeholder,
+.season-icon-placeholder {
+  width: 0;
+  height: 0;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+/* ---------- Nook's Cranny / shop card ---------- */
+
+.card-shop-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .card-shop-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-shop-item,
+.card-shop-turnip {
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: var(--border-radius-sm);
+  padding: 10px 12px;
+}
+
+.shop-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.item-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.item-price {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.turnip-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.turnip-label {
+  color: var(--text-muted);
+}
+
+.turnip-value {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* ---------- Turnip analytics card (kept for future) ---------- */
+
+.card-analytics {
+  padding-bottom: 16px;
+}
+
+.tab-switch {
+  margin-left: auto;
+  display: flex;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.tab-button {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.tab-button-active {
+  background: #ffe6a2;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.analytics-chart {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--border-radius-sm);
+  padding: 12px 10px 10px;
+  position: relative;
+}
+
+.chart-background {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  column-gap: 4px;
+  height: 120px;
+  background-image: linear-gradient(
+      to right,
+      rgba(253, 223, 180, 0.25) 0,
+      rgba(253, 223, 180, 0.25) 25%,
+      rgba(212, 228, 255, 0.3) 25%,
+      rgba(212, 228, 255, 0.3) 50%,
+      rgba(225, 242, 206, 0.3) 50%,
+      rgba(225, 242, 206, 0.3) 75%,
+      rgba(249, 220, 230, 0.3) 75%,
+      rgba(249, 220, 230, 0.3) 100%
+    );
+  background-size: 700% 100%;
+  border-radius: var(--border-radius-sm);
+}
+
+.chart-day {
+  align-self: flex-end;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-top: 4px;
+}
+
+.chart-line-placeholder {
+  pointer-events: none;
+  position: absolute;
+  inset: 16px 16px 28px 16px;
+  border-radius: var(--border-radius-sm);
+  border: 1.5px dashed rgba(129, 199, 132, 0.7);
+}
+
+/* ---------- New Event card (unused) ---------- */
+
+.card-event {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.event-left {
+  display: flex;
+  justify-content: center;
+}
+
+.event-character-placeholder {
+  width: 70px;
+  height: 90px;
+  border-radius: 18px;
+}
+
+.event-right .card-title {
+  margin-bottom: 4px;
+}
+
+.primary-btn {
+  margin-top: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--accent-green);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.primary-btn:hover {
+  filter: brightness(1.03);
+}
+
+/* ---------- Profile card ---------- */
+
+.card-profile {
+  padding-bottom: 16px;
+}
+
+.profile-top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.profile-title {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ffe1f1;
+  color: #b45b8c;
+  font-weight: 700;
+}
+
+.profile-favorite {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+
+.profile-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+/* ---------- Daily update card ---------- */
+
+.card-daily {
+  background: #fffbe9;
+}
+
+/* center the "Recent Updates" title */
+.daily-header {
+  display: flex;
+  justify-content: center;   /* center contents horizontally */
+  align-items: baseline;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* you can keep .daily-time for future metadata; currently unused */
+.daily-time {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.daily-time-main {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.daily-time-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.daily-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffe27b;
+  border-radius: 999px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+}
+
+.message-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.message-meta {
+  font-size: 11px;
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+
+.daily-lists {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .daily-lists {
+    flex-direction: column;
+  }
+}
+
+.daily-column {
+  flex: 1;
+}
+
+.visitor-row,
+.event-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.visitor-name,
+.event-name {
+  font-size: 13px;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.event-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ---------- Matcha summary card ---------- */
+
+.card-summary {
+  background: #fff;
+}
+
+.card-summary .card-title {
+  margin-bottom: 8px;
+}
+
+.summary-json {
+  margin: 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f6f8fb;
+  font-size: 11px;
+  max-height: 220px;
+  overflow: auto;
+  font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+}
+
+.error-text {
+  color: #d9534f;
+}
+
+/* ---------- Utility ---------- */
+
+@media (max-width: 480px) {
+  .card {
+    padding: 14px 14px;
+  }
+
+  .profile-stats {
+    flex-direction: column;
+    gap: 6px;
+  }
 }
